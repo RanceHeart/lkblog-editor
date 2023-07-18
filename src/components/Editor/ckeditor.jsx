@@ -7,9 +7,10 @@ import { Heading } from '@ckeditor/ckeditor5-heading';
 import { Link } from '@ckeditor/ckeditor5-link';
 import { List } from '@ckeditor/ckeditor5-list';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
-import Alignment from "@ckeditor/ckeditor5-alignment/src/alignment.js";
-import AutoImage from "@ckeditor/ckeditor5-image/src/autoimage.js";
-import Autosave from "@ckeditor/ckeditor5-autosave/src/autosave.js";
+import { Alignment } from "@ckeditor/ckeditor5-alignment";
+import {AutoImage} from "@ckeditor/ckeditor5-image";
+import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
+import { Autosave } from "@ckeditor/ckeditor5-autosave";
 import Base64UploadAdapter from "@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter.js";
 import BlockToolbar from "@ckeditor/ckeditor5-ui/src/toolbar/block/blocktoolbar.js";
 import CloudServices from "@ckeditor/ckeditor5-cloud-services/src/cloudservices.js";
@@ -33,8 +34,14 @@ import Table from "@ckeditor/ckeditor5-table/src/table.js";
 import TableToolbar from "@ckeditor/ckeditor5-table/src/tabletoolbar.js";
 import TextTransformation from "@ckeditor/ckeditor5-typing/src/texttransformation.js";
 import WordCount from "@ckeditor/ckeditor5-word-count/src/wordcount.js";
+import { ShowBlocks } from '@ckeditor/ckeditor5-show-blocks';
+
+import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
+import { Style } from '@ckeditor/ckeditor5-style';
+import './ckeditor.css'
 
 ClassicEditorBase.builtinPlugins = [
+  GeneralHtmlSupport,
   Alignment,
   AutoImage,
   Autoformat,
@@ -69,39 +76,29 @@ ClassicEditorBase.builtinPlugins = [
   Table,
   TableToolbar,
   TextTransformation,
-  WordCount
+  WordCount,
+  ShowBlocks,
+  SourceEditing,
+  Style
 ];
 
 ClassicEditorBase.defaultConfig = {
   toolbar: {
     items: [
-      'heading',
-      'bold',
-      'italic',
-      'link',
-      'bulletedList',
-      'numberedList',
-      'blockQuote',
-      'imageUpload',
-      'insertTable',
-      'mediaEmbed',
-      'undo',
-      'redo',
-      'alignment',
-      'code',
-      'codeBlock',
-      'horizontalLine',
-      'imageInsert',
-      'imageStyle',
-      'indent',
-      'indentBlock',
-      'markdown',
-      'pasteFromOffice',
-      'textTransformation',
-      'wordCount'
+      'undo', 'redo',
+      '|', 'sourceEditing',
+      '|', 'style', 'heading', 'bold', 'italic', 'link', 'textTransformation',
+      '|', 'bulletedList', 'numberedList', 'alignment',
+      '|', 'indent', 'indentBlock',
+      '|', 'imageUpload', 'imageInsert', 'imageStyle',
+      '|', 'insertTable', 'mediaEmbed',
+      '|', 'blockQuote', 'code', 'codeBlock',
+      '|', 'markdown', 'pasteFromOffice',
+      '|', 'horizontalLine',
+      '|', 'wordCount', 'showBlocks'
     ],
-    shouldNotGroupWhenFull: true
   },
+  shouldNotGroupWhenFull: true,
   language: 'en',
   blockToolbar: [
     'codeBlock',
@@ -123,7 +120,22 @@ ClassicEditorBase.defaultConfig = {
       'tableRow',
       'mergeTableCells'
     ]
+  },
+  style: {
+    definitions: [
+      {
+        name: 'Article category',
+        element: 'h3',
+        classes: [ 'category' ]
+      },
+      {
+        name: 'Info box',
+        element: 'p',
+        classes: [ 'info-box' ]
+      },
+    ]
   }
 };
+
 
 export default ClassicEditorBase;
