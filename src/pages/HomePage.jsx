@@ -15,61 +15,74 @@ const recentPosts = [
 const posts = [
   {
     id: '1',
-    author: 'Author 1',
-    publication: 'Publication 1',
-    title: 'Title 1',
-    content: 'Content 1',
-    imageUrl: 'https://via.placeholder.com/150'
+    author: 'John Doe',
+    publication: 'Tech Crunch',
+    title: 'The Future of AI: Exploring the next frontier',
+    content: 'Artificial Intelligence (AI) is rapidly transforming our world. Remarkable breakthroughs are being achieved in AI every year...',
+    imageUrl: 'https://picsum.photos/seed/picsum/200/300',
+    tags: ['AI', 'Technology', 'Future'],
+    readTime: 5
   },
   {
     id: '2',
-    author: 'Author 2',
-    publication: 'Publication 2',
-    title: 'Title 2',
-    content: 'Content 2',
-    imageUrl: 'https://via.placeholder.com/150'
+    author: 'Jane Smith',
+    publication: 'Nature',
+    title: 'Climate Change: A ticking time bomb',
+    content: 'Climate change is the defining issue of our time and we are at a defining moment...',
+    imageUrl: 'https://picsum.photos/id/237/200/300',
+    tags: ['Climate Change', 'Environment', 'Science'],
+    readTime: 7
   },
   {
     id: '3',
-    author: 'Author 3',
-    publication: 'Publication 3',
-    title: 'Title 3',
-    content: 'Content 3',
-    imageUrl: 'https://via.placeholder.com/150'
+    author: 'Robert Johnson',
+    publication: 'The Economist',
+    title: 'The Global Economy Post-Pandemic',
+    content: 'The global economy is gradually recovering from the impact of the COVID-19 pandemic...',
+    imageUrl: 'https://picsum.photos/200/300?grayscale',
+    tags: ['Economy', 'COVID-19', 'Global'],
+    readTime: 6
   },
   {
     id: '4',
-    author: 'Author 4',
-    publication: 'Publication 4',
-    title: 'Title 4',
-    content: 'Content 4',
-    imageUrl: 'https://via.placeholder.com/150'
+    author: 'Emily Davis',
+    publication: 'The New Yorker',
+    title: 'The Art of Storytelling',
+    content: 'Storytelling is an ancient and valuable art that extends around the globe...',
+    imageUrl: 'https://picsum.photos/200/300/?blur',
+    tags: ['Art', 'Storytelling', 'Culture'],
+    readTime: 4
   },
   {
     id: '5',
-    author: 'Author 5',
-    publication: 'Publication 5',
-    title: 'Title 5',
-    content: 'Content 5',
-    imageUrl: 'https://via.placeholder.com/150'
+    author: 'Michael Brown',
+    publication: 'National Geographic',
+    title: 'Exploring the Depths: Ocean Biodiversity',
+    content: 'The ocean, covering about 70% of the Earth’s surface, houses a significant amount of the planet’s biodiversity...',
+    imageUrl: 'https://picsum.photos/id/870/200/300?grayscale&blur=2',
+    tags: ['Ocean', 'Biodiversity', 'Exploration'],
+    readTime: 8
   },
   {
     id: '6',
-    author: 'Author 6',
-    publication: 'Publication 6',
-    title: 'Title 6',
-    content: 'Content 6',
-    imageUrl: 'https://via.placeholder.com/150'
+    author: 'Sarah Wilson',
+    publication: 'Time',
+    title: 'The Role of Technology in Modern Education',
+    content: 'Technology has revolutionized the field of education. The importance of technology in schools cannot be ignored...',
+    imageUrl: 'https://placekitten.com/640/360',
+    tags: ['Education', 'Technology'],
+    readTime: 5
   },
   {
     id: '7',
-    author: 'Author 7',
-    publication: 'Publication 7',
-    title: 'Title 7',
-    content: 'Content 7',
-    imageUrl: 'https://via.placeholder.com/150'
+    author: 'David Miller',
+    publication: 'Wired',
+    title: 'The Rise of Electric Vehicles',
+    content: 'Electric vehicles are changing the future of auto travel. The electric vehicle market has grown substantially over the past few years and its not slowing down...',
+    imageUrl: 'https://placebeard.it/640x360',
+    tags: ['Electric Vehicles', 'Technology', 'Auto'],
+    readTime: 6
   },
-  // Add more posts as needed
 ];
 
 function HomePage() {

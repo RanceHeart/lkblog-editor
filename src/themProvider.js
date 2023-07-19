@@ -5,7 +5,7 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#3f51b5', // light purple
+      main: '#000000', // light purple
     },
     secondary: {
       main: '#f50057', // pink
@@ -16,7 +16,17 @@ const lightTheme = createTheme({
     text: {
       primary: '#000000', // black
     },
-    // Add more color configurations as needed
+    overrides: {
+      MuiCssBaseline: {
+        '@global': {
+          ':root': {
+            '--ck-color-primary': '#3f51b5', // light purple
+            '--ck-color-background': '#ffffff', // white
+            '--ck-color-text': '#000000', // black
+          },
+        },
+      },
+    },
   },
 });
 
@@ -24,18 +34,28 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#6D9886', // dark purple
+      main: 'rgba(185,252,177,0.8)',
     },
     secondary: {
-      main: '#6D9886', // teal
+      main: '#1fb622',
     },
     background: {
-      default: '#303030', // dark grey
+      default: '#303030',
     },
     text: {
       primary: '#ffffff', // white
     },
-    // Add more color configurations as needed
+    overrides: {
+      MuiCssBaseline: {
+        '@global': {
+          ':root': {
+            '--ck-color-primary': '#eeeeee', // dark purple
+            '--ck-color-background': '#303030', // dark grey
+            '--ck-color-text': '#ffffff', // white
+          },
+        },
+      },
+    },
   },
 });
 

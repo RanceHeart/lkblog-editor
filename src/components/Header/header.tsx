@@ -1,8 +1,10 @@
 import {Avatar, Box, Button, Grid, IconButton, Input, Typography, useMediaQuery, useTheme, Zoom} from '@mui/material';
 import { FaPen, FaGoogle } from 'react-icons/fa';
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { styled } from '@mui/system';
 import { useNavigate, useLocation } from 'react-router-dom';
+import {useGoogleLogin} from '@react-oauth/google';
+import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
 
 const LogoAvatar = styled(Avatar)(({ theme }) => ({
   filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'none',
@@ -19,7 +21,6 @@ const Header = () => {
   const [inputValue, setInputValue] = useState<string>('');
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const theme = useTheme();
 
@@ -29,6 +30,22 @@ const Header = () => {
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
+
+  // @ts-ignore
+  const { loaded, signIn } = useGoogleLogin({
+    onSuccess: (res: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+      if ('profileObj' in res) {
+        console.log('Login Success:', res.profileObj);
+      }
+    },
+    isSignedIn: true,  // This will check if user is signed in on component mount
+  });
+
+  useEffect(() => {
+    if (loaded) {
+      signIn();
+    }
+  }, [loaded, signIn]);
 
   return (
       <Box sx={{ bg: theme.palette.background.default, w: '100%', p: 4, color: 'white' }}>
@@ -53,15 +70,6 @@ const Header = () => {
                 onClick={() => navigate('/create-new-post')}
             >
               Write
-            </Button>
-            <Button
-                startIcon={<FaGoogle />}
-                color="primary"
-                onClick={() => {
-                  // Add your Google login logic here
-                }}
-            >
-              Sign in with Google
             </Button>
           </Grid>
         </Grid>

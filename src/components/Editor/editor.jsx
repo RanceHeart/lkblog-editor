@@ -10,8 +10,6 @@ const editor = () =>{
   const [data, setData] = useState("")
   const [wordCount, setWordCount] = useState(0);
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-
   const handleEditorReady = (editor) => {
     console.log('Editor is ready to use!', editor);
   };
@@ -21,6 +19,7 @@ const editor = () =>{
     <Box position="relative">
       <h2 className>Using the CKEditor 5 feature in React</h2>
       <CKEditor
+        key={'light'}
         editor={ Editor }
         data="<p>Hello from the first editor working with the context!</p>"
         onReady={ editor => {
