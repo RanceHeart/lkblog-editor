@@ -12,7 +12,7 @@ const clientId = "220791246608-tv0u6kd4438ftukgnpjtac37pjlc92lk.apps.googleuserc
 
 
 const App = () => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
 
   const theme = useMemo(
     () => (prefersDarkMode ? darkTheme : lightTheme),

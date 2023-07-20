@@ -132,7 +132,7 @@ const PostView = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
             <Box sx={{ overflowY: 'auto', pr: 8, maxHeight: 'calc(90vh - 100px)', scrollbarWidth: 'none' }}>
-              <Typography variant="h3" gutterBottom>
+              <Typography variant="h4" gutterBottom>
                 {post.title}
               </Typography>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>

@@ -65,37 +65,37 @@ const Post: React.FC<PostProps> = ({id, author, publication, title, content, ima
                     {readTime} min read
                   </Typography>
                 </Box>
-                <Box sx={{display: 'flex', alignItems: 'center'}}>
-                  <IconButton
-                      aria-label="mark"
-                      color={bookmarkColor}
-                      onMouseEnter={() => setBookmarkColor('default')}
-                      onMouseLeave={() => setBookmarkColor('default')}
-                      onClick={() => setBookmarkColor('warning')}
-                  >
-                    <BookmarkIcon/>
-                  </IconButton>
+                {/*<Box sx={{display: 'flex', alignItems: 'center'}}>*/}
+                {/*  <IconButton*/}
+                {/*      aria-label="mark"*/}
+                {/*      color={bookmarkColor}*/}
+                {/*      onMouseEnter={() => setBookmarkColor('default')}*/}
+                {/*      onMouseLeave={() => setBookmarkColor('default')}*/}
+                {/*      onClick={() => setBookmarkColor('warning')}*/}
+                {/*  >*/}
+                {/*    <BookmarkIcon/>*/}
+                {/*  </IconButton>*/}
 
-                  <IconButton
-                      aria-label="like"
-                      color={likeColor}
-                      onMouseEnter={() => setLikeColor('default')}
-                      onMouseLeave={() => setLikeColor('default')}
-                      onClick={() => setLikeColor('info')}
-                  >
-                    <ThumbUpIcon/>
-                  </IconButton>
+                {/*  <IconButton*/}
+                {/*      aria-label="like"*/}
+                {/*      color={likeColor}*/}
+                {/*      onMouseEnter={() => setLikeColor('default')}*/}
+                {/*      onMouseLeave={() => setLikeColor('default')}*/}
+                {/*      onClick={() => setLikeColor('info')}*/}
+                {/*  >*/}
+                {/*    <ThumbUpIcon/>*/}
+                {/*  </IconButton>*/}
 
-                  <IconButton
-                      aria-label="delete"
-                      color={deleteColor}
-                      onMouseEnter={() => setDeleteColor('default')}
-                      onMouseLeave={() => setDeleteColor('default')}
-                      onClick={() => setDeleteColor('error')}
-                  >
-                    <DeleteIcon/>
-                  </IconButton>
-                </Box>
+                {/*  <IconButton*/}
+                {/*      aria-label="delete"*/}
+                {/*      color={deleteColor}*/}
+                {/*      onMouseEnter={() => setDeleteColor('default')}*/}
+                {/*      onMouseLeave={() => setDeleteColor('default')}*/}
+                {/*      onClick={() => setDeleteColor('error')}*/}
+                {/*  >*/}
+                {/*    <DeleteIcon/>*/}
+                {/*  </IconButton>*/}
+                {/*</Box>*/}
               </Box>
             </Grid>
           </Grid>
