@@ -1,10 +1,10 @@
-import { Box, Grid } from '@mui/material';
-import Header from '../components/Header/header';
-import PostList from '../components/PostList/postList';
-import Profile from '../components/Profile/profile';
-import RecentPosts from '../components/RecentPosts/recentPosts';
-
-// Initial value
+import {useParams} from 'react-router-dom';
+import {Box} from "@mui/system";
+import {Avatar, Chip, Grid, Typography} from "@mui/material";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import Header from "../Header/header";
+import RecentPosts from "../RecentPosts/recentPosts";
+import PostList from "../PostList/postList";
 const recentPosts = [
   {
     id: '1',
@@ -112,18 +112,41 @@ const posts = [
   },
 ];
 
-function HomePage() {
+const PostView = () => {
+  const {id} = useParams();
+
+  // Fetch the post's data based on the ID in the URL.
+  // This is just a placeholder. You'll need to replace this with your actual data fetching logic.
+  const post = posts.find((post) => post.id === id);
+
+  if (!post) {
+    return <Typography variant="h4">Post not found</Typography>;
+  }
 
   return (
-    <Box sx={{ mx: 'auto', px: 6 }}>
+    <Box sx={{mx: 'auto', px: 6}}>
       <Box>
-        <Header />
+        <Header/>
       </Box>
       <Box sx={{ maxWidth: '1450px', mx: 'auto', px: 6 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
             <Box sx={{ overflowY: 'auto', pr: 8, maxHeight: 'calc(90vh - 100px)', scrollbarWidth: 'none' }}>
-              <PostList posts={posts} />
+              <Typography variant="h3" gutterBottom>
+                {post.title}
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                {post.tags.map((tag, index) => (
+                  <Chip key={index} label={tag} variant="outlined" sx={{ mr: 1 }} />
+                ))}
+                <Typography variant="body2" color="text.secondary">
+                  <AccessTimeIcon sx={{ mr: 1, fontSize: 20 }} />
+                  {post.readTime} min read
+                </Typography>
+              </Box>
+              <Typography variant="body1">
+                {post.content}
+              </Typography>
             </Box>
           </Grid>
           <Grid item xs={12} md={4}>
@@ -137,4 +160,4 @@ function HomePage() {
   );
 };
 
-export default HomePage;
+export default PostView;

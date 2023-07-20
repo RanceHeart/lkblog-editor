@@ -1,5 +1,5 @@
 // theme.js
-import { createTheme } from '@mui/material/styles';
+import {createTheme} from '@mui/material/styles';
 
 const lightTheme = createTheme({
   palette: {
@@ -34,7 +34,7 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: 'rgba(185,252,177,0.8)',
+      main: 'rgba(255,255,255,0.8)',
     },
     secondary: {
       main: '#1fb622',
@@ -52,6 +52,8 @@ const darkTheme = createTheme({
             '--ck-color-primary': '#eeeeee', // dark purple
             '--ck-color-background': '#303030', // dark grey
             '--ck-color-text': '#ffffff', // white
+            '--ck-color-panel-background': '#303030',
+            '--ck-color-tooltip-background': 'hsl(252, 7%, 14%)'
           },
         },
       },
@@ -71,4 +73,4 @@ const darkTheme = createTheme({
 // #FFFFFF
 // #E3F6F5
 // #bae8e8
-export { lightTheme, darkTheme };
+export {lightTheme, darkTheme};
