@@ -1,10 +1,11 @@
 import {useParams} from 'react-router-dom';
 import {Box} from "@mui/system";
-import {Avatar, Chip, Grid, Typography} from "@mui/material";
+import {Chip, Grid, Typography} from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Header from "../Header/header";
 import RecentPosts from "../RecentPosts/recentPosts";
-import PostList from "../PostList/postList";
+
+
 const recentPosts = [
   {
     id: '1',

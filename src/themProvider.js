@@ -53,7 +53,7 @@ const darkTheme = createTheme({
             '--ck-color-background': '#303030', // dark grey
             '--ck-color-text': '#ffffff', // white
             '--ck-color-panel-background': '#303030',
-            '--ck-color-tooltip-background': 'hsl(252, 7%, 14%)'
+            '--ck-color-tooltip-background': 'hsl(252, 7%, 14%)',
           },
         },
       },
