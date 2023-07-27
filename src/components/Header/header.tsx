@@ -1,5 +1,5 @@
 import {Avatar, Box, Button, Grid, IconButton, Input, useMediaQuery, useTheme} from '@mui/material';
-import {FaGoogle, FaUpload, FaPen} from 'react-icons/fa';
+import {FaGoogle, FaPen} from 'react-icons/fa';
 import {useEffect, useState} from 'react';
 import {styled} from '@mui/system';
 import {useLocation, useNavigate} from 'react-router-dom';
@@ -7,7 +7,7 @@ import {useGoogleLogin} from '@react-oauth/google';
 import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-login";
 
 import Tooltip from '@mui/material/Tooltip';
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const LogoAvatar = styled(Avatar)(({theme}) => ({
     filter: theme.palette.mode === 'dark' ? 'invert(1)' : 'none',
@@ -109,9 +109,7 @@ const Header = () => {
                 <Grid item xs={5} container justifyContent="flex-end">
                   <Box mr={2}>
                     {location.pathname === '/create-new-post' ? (
-                        createIconButton(<FaUpload />, "publish", () => {
-                          // Add your submit logic here
-                        }, writeButtonScale, setWriteButtonScale)
+                        <div></div>
                     ) : (
                         createIconButton(<FaPen />, "write", () => navigate('/create-new-post'), writeButtonScale, setWriteButtonScale)
                     )}

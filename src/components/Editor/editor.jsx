@@ -3,13 +3,16 @@ import {CKEditor} from "@ckeditor/ckeditor5-react";
 import Editor from "./ckeditor.jsx";
 import {SpeedDial, SpeedDialAction, Typography} from '@mui/material';
 import {Box} from "@mui/system";
-import {FaCog, FaHome, FaSearch, FaToolbox, FaUser} from 'react-icons/fa';
+import {FaCog, FaHome, FaSearch, FaUpload, FaUser} from 'react-icons/fa';
+
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+import InventoryIcon from '@mui/icons-material/Inventory';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const actions = [
-    {icon: <FaHome/>, name: 'Home'},
-    {icon: <FaSearch/>, name: 'Search'},
-    {icon: <FaUser/>, name: 'Profile'},
-    {icon: <FaCog/>, name: 'Settings'},
+    {icon: <SaveAsIcon sx={{ color: '#6b6b6b', opacity: 0.85 }}/>, name: 'Save as draft'},
+    {icon: <InventoryIcon sx={{ color: '#ffaa00', opacity: 0.85 }}/>, name: 'Save as template'},
+    {icon: <DeleteForeverIcon sx={{ color: '#cc0000', opacity: 0.85 }}/>, name: 'Drop'},
 ];
 
 const editor = () => {
@@ -53,23 +56,22 @@ const editor = () => {
                 onFocus={(event, editor) => {
                 }}
             />
-            <Typography variant="body1">Word count: {wordCount}</Typography>
             <Box position="absolute" bottom={48} right={24} zIndex="tooltip">
                 <div
-                    style={{ position: 'relative', width: 200, height: 200 }}
+                    style={{ position: 'fixed', bottom: "15%", right: "10%", width: 200, height: 200 }}
                     onMouseEnter={() => setOpen(true)}
                     onMouseLeave={() => setOpen(false)}
                 >
                     <SpeedDial
                         ariaLabel="SpeedDial openIcon example"
-                        icon={<FaToolbox />}
+                        icon={<FaUpload />}
                         open={open}
                         direction="up"
-                        sx={{ position: 'absolute', bottom: 0, right: 0 }}
+                        sx={{ position: 'fixed', bottom: "15%", right: "10%" }}
                     >
                         {actions.map((action, index) => {
                             const startDegree = 90;  // Adjust this value to change the starting degree
-                            const rotationAngle = startDegree + index * 40;
+                            const rotationAngle = startDegree + index * 50;
 
                             return (
                                 <SpeedDialAction
