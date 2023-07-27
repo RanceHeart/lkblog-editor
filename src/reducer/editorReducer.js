@@ -1,16 +1,19 @@
 import { UPDATE_EDITOR_CONTENT } from './actions';
 
 const initialState = {
+  title: '',
+  image: '',
+  tags: [],
   content: '',
 };
 
 const editorReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_EDITOR_CONTENT:
-      console.log(state.content);
+      console.log(action.payload)
       return {
         ...state,
-        content: action.payload,
+        ...action.payload,
       };
     default:
       return state;

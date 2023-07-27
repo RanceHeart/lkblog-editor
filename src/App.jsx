@@ -11,11 +11,8 @@ import PostView from "./components/PostView/postView.jsx";
 import store from './reducer/store';
 import {Provider} from "react-redux";
 
-const clientId = "220791246608-tv0u6kd4438ftukgnpjtac37pjlc92lk.apps.googleusercontent.com";
-
-
 const App = () => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
 
   const theme = useMemo(
     () => (prefersDarkMode ? darkTheme : lightTheme),
@@ -26,7 +23,6 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <div className="App">
-          <GoogleOAuthProvider clientId={clientId}>
             <ThemeProvider theme={theme}>
               <CssBaseline/>
               <Routes> {/* Use Routes to handle routing */}
@@ -36,7 +32,6 @@ const App = () => {
                 {/* Add more routes for other pages as needed */}
               </Routes>
             </ThemeProvider>
-          </GoogleOAuthProvider>
         </div>
       </Router>
     </Provider>
