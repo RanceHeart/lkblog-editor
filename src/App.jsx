@@ -7,6 +7,9 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import CreateNewPost from "./pages/CreateNewPost.jsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import PostView from "./components/PostView/postView.jsx";
+// Redux Config
+import store from './reducer/store';
+import {Provider} from "react-redux";
 
 const clientId = "220791246608-tv0u6kd4438ftukgnpjtac37pjlc92lk.apps.googleusercontent.com";
 
@@ -20,21 +23,23 @@ const App = () => {
   );
 
   return (
-    <Router>
-      <div className="App">
-        <GoogleOAuthProvider clientId={clientId}>
-          <ThemeProvider theme={theme}>
-            <CssBaseline/>
-            <Routes> {/* Use Routes to handle routing */}
-              <Route path="/post/:id" element={<PostView/>} />
-              <Route path="/" element={<HomePage/>}/> {/* Define a route for the HomePage */}
-              <Route path="/create-new-post" element={<CreateNewPost/>}/> {/* Define a route for the HomePage */}
-              {/* Add more routes for other pages as needed */}
-            </Routes>
-          </ThemeProvider>
-        </GoogleOAuthProvider>
-      </div>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <GoogleOAuthProvider clientId={clientId}>
+            <ThemeProvider theme={theme}>
+              <CssBaseline/>
+              <Routes> {/* Use Routes to handle routing */}
+                <Route path="/post/:id" element={<PostView/>}/>
+                <Route path="/" element={<HomePage/>}/> {/* Define a route for the HomePage */}
+                <Route path="/create-new-post" element={<CreateNewPost/>}/> {/* Define a route for the HomePage */}
+                {/* Add more routes for other pages as needed */}
+              </Routes>
+            </ThemeProvider>
+          </GoogleOAuthProvider>
+        </div>
+      </Router>
+    </Provider>
   );
 };
 

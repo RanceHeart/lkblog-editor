@@ -9,7 +9,7 @@ function CreateNewPost() {
       <Box>
         <Header />
       </Box>
-      <Box sx={{ maxWidth: '1450px', mx: 'auto', px: 6 }}>
+      <Box sx={{ maxWidth: '850px', mx: 'auto', px: 6, mt: -15 }}>
         <Editor/>
       </Box>
     </Box>
