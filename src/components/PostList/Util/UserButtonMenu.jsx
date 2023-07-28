@@ -3,7 +3,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark.js";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp.js";
 import {useState} from "react";
 
-const UserButtonMenu =() => {
+const UserButtonMenu =(post) => {
   const [bookmarkColor, setBookmarkColor] = useState ('default');
   const [likeColor, setLikeColor] = useState  ('default');
 

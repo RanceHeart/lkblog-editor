@@ -8,16 +8,14 @@ import AdminButtonMenu from './Util/AdminButtonMenu'
 
 export interface PostProps {
   id: string;
-  author: string;
-  publication: string;
   title: string;
-  content: string;
-  imageUrl: string;
+  image: string;
   tags: string[];
+  content: string;
   readTime: number;
 }
 
-const Post: React.FC<PostProps> = ({id, author, publication, title, content, imageUrl, tags, readTime}) => {
+const Post: React.FC<PostProps> = ({id, title, content, image, tags, readTime}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [postHovered, setPostHovered] = useState(false);
   const [postClicked, setPostClicked] = useState(false);
@@ -48,7 +46,7 @@ const Post: React.FC<PostProps> = ({id, author, publication, title, content, ima
           <Grid item xs={12} sm={4}>
             <Link component={RouterLink} to={`/post/${id}`} color="text.primary" underline="none">
               <Box sx={{width: '100%', height: '300px', overflow: 'hidden'}}>
-                <img src={imageUrl} alt="Post" style={{width: '100%', height: 'auto'}}/>
+                <img src={image} alt="Post" style={{width: '100%', height: 'auto'}}/>
               </Box>
             </Link>
           </Grid>

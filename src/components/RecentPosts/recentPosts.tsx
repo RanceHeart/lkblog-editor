@@ -3,19 +3,17 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Profile from '../Profile/profile';
 import {Link as RouterLink} from "react-router-dom";
 
-type Post = {
+export interface PostProps {
   id: string;
-  author: string;
-  publication: string;
   title: string;
-  content: string;
-  imageUrl: string;
+  image: string;
   tags: string[];
+  content: string;
   readTime: number;
-};
+}
 
 type RecentPostsProps = {
-  posts: Post[];
+  posts: PostProps[];
 };
 
 const RecentPosts: React.FC<RecentPostsProps> = ({ posts }) => {
@@ -40,7 +38,7 @@ const RecentPosts: React.FC<RecentPostsProps> = ({ posts }) => {
                       </Grid>
                       <Grid item xs={12} md={6}>
                         <Typography variant="body2" color="text.secondary">
-                          in {post.publication}
+                          in Blog
                         </Typography>
                       </Grid>
                       <Grid item xs={12}>

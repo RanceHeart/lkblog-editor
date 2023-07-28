@@ -3,9 +3,7 @@ import {CKEditor} from "@ckeditor/ckeditor5-react";
 import Editor from "./ckeditor.jsx";
 import {
   Chip,
-  Grid,
   IconButton,
-  Paper,
   SpeedDial,
   SpeedDialAction,
   TextField,
@@ -25,7 +23,7 @@ import {parse} from 'node-html-parser';
 
 // Using redux to fetch the data of editor
 import {useDispatch, useSelector} from 'react-redux';
-import {updateEditorContent} from '../../reducer/actions';
+import {createPost, updateEditorContent, updatePost} from '../../reducer/actions';
 
 const actions = [
   {icon: <SaveAsIcon sx={{color: '#6b6b6b', opacity: 0.85}}/>, name: 'Save as draft'},
@@ -33,68 +31,66 @@ const actions = [
   {icon: <DeleteForeverIcon sx={{color: '#cc0000', opacity: 0.85}}/>, name: 'Drop'},
 ];
 
-const WordCount = ({ wordCount }) => (
-    <Typography variant="h6">Word Count: {wordCount}</Typography>
+const WordCount = ({wordCount}) => (
+  <Typography variant="h6">Word Count: {wordCount}</Typography>
 );
 
-const TagInput = ({ tagInput, handleTagInputChange, handleAddTag, tags, handleDeleteTag }) => (
-    <Box mt={2} display="flex" flexDirection="column" alignItems="flex-start">
-      <Box display="flex" alignItems="center">
-        <IconButton color="primary" onClick={handleAddTag} sx={{ ml: 2 }}>
-          <TagIcon />
-        </IconButton>
-        <TextField
-            value={tagInput}
-            onChange={handleTagInputChange}
-            placeholder="Enter a tag"
-            variant="outlined"
-            size="small"
-        />
-      </Box>
-      <Typography variant="h6" sx={{ mt: 2 }}>Tags:</Typography>
-      {tags.map((tag, index) => (
-          <Box key={index} component="span" ml={1} mt={1}>
-            <Chip label={tag} onDelete={() => handleDeleteTag(index)} />
-          </Box>
-      ))}
+const TagInput = ({tagInput, handleTagInputChange, handleAddTag, tags, handleDeleteTag}) => (
+  <Box mt={2} display="flex" flexDirection="column" alignItems="flex-start">
+    <Box display="flex" alignItems="center">
+      <IconButton color="primary" onClick={handleAddTag} sx={{ml: 2}}>
+        <TagIcon/>
+      </IconButton>
+      <TextField
+        value={tagInput}
+        onChange={handleTagInputChange}
+        placeholder="Enter a tag"
+        variant="outlined"
+        size="small"
+      />
     </Box>
+    <Typography variant="h6" sx={{mt: 2}}>Tags:</Typography>
+    {tags.map((tag, index) => (
+      <Box key={index} component="span" ml={1} mt={1}>
+        <Chip label={tag} onDelete={() => handleDeleteTag(index)}/>
+      </Box>
+    ))}
+  </Box>
 );
 
-const SpeedDialActions = ({ open }) => (
-    <SpeedDial
-        ariaLabel="SpeedDial openIcon example"
-        icon={<FaUpload/>}
-        open={open}
-        direction="up"
-        sx={{position: 'fixed', bottom: "15%", right: "15%"}}
-    >
-      {actions.map((action, index) => {
-        const startDegree = 90;  // Adjust this value to change the starting degree
-        const rotationAngle = startDegree + index * 50;
+const SpeedDialActions = ({open, onSave}) => (
+  <SpeedDial
+    ariaLabel="SpeedDial openIcon example"
+    icon={<FaUpload/>}
+    open={open}
+    direction="up"
+    sx={{position: 'fixed', bottom: "15%", right: "15%"}}
+  >
+    {actions.map((action, index) => {
+      const startDegree = 90;  // Adjust this value to change the starting degree
+      const rotationAngle = startDegree + index * 50;
 
-        return (
-            <SpeedDialAction
-                key={action.name}
-                icon={action.icon}
-                tooltipTitle={action.name}
-                sx={{
-                  position: 'absolute',
-                  bottom: '0%',
-                  right: '0%',
-                  transform: `rotate(-${rotationAngle}deg) translate(70px) rotate(${rotationAngle}deg)`,
-                  transformOrigin: 'bottom right',
-                }}
-            />
-        );
-      })}
-    </SpeedDial>
+      return (
+        <SpeedDialAction
+          key={action.name}
+          icon={action.icon}
+          tooltipTitle={action.name}
+          onClick={onSave}
+          sx={{
+            position: 'absolute',
+            bottom: '0%',
+            right: '0%',
+            transform: `rotate(-${rotationAngle}deg) translate(70px) rotate(${rotationAngle}deg)`,
+            transformOrigin: 'bottom right',
+          }}
+        />
+      );
+    })}
+  </SpeedDial>
 );
 
-const editor = () => {
-  const [data, setData] = useState("" +
-    "<img src=\"/lofi-image-for-blog.jpg\" alt=\"Default\" />" +
-    "<h2>Hello from the first editor working with the context!</h2>" +
-    "")
+const editor = ({mode, postId}) => {
+  const [data, setData] = useState("");
 
   const image = "/lofi-image-for-blog.jpg";  // The path to your image file
   const toBase64 = file => new Promise((resolve, reject) => {
@@ -106,12 +102,18 @@ const editor = () => {
 
   async function loadImage() {
     const file = await fetch(image)
-        .then(response => response.blob())
-        .then(blob => new File([blob], "lofi-image-for-blog.jpg", {type: 'image/jpeg'}));
+      .then(response => response.blob())
+      .then(blob => new File([blob], "lofi-image-for-blog.jpg", {type: 'image/jpeg'}));
     const base64Image = await toBase64(file);
 
-    setData("<img src=\"" + base64Image + "\" alt=\"Default\" />" +
+    if (mode === 'edit') {
+      const post = useSelector(state => state.posts.find(post => post.id === postId))
+      setData(post.content);
+      setTags(post.tags);
+    } else {
+      setData("<img src=\"" + base64Image + "\" alt=\"Default\" />" +
         "<h2>Hello from the first editor working with the context!</h2>");
+    }
   }
 
   useEffect(() => {
@@ -149,98 +151,105 @@ const editor = () => {
   const dispatch = useDispatch();
   const content = useSelector(state => state.content);
 
-  const prevDataRef = useRef(data);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (data !== prevDataRef.current) {
-        const root = parse(data);
+      const root = parse(data);
 
-        const h2 = root.querySelector('h2');
-        const img = root.querySelector('img');
+      const h2 = root.querySelector('h2');
+      const img = root.querySelector('img');
 
-        if (!h2 || !img) {
-          console.error('The content must contain a Header1 and an image.');
-          return;
-        }
-
-        // Extract the title, image, and content
-        const title = h2.text;
-        const image = img.getAttribute('src');
-        const content = data.replace(h2.outerHTML, '').replace(img.outerHTML, '');
-
-
-        // Dispatch the updateEditorContent action with the title, image, tags, and content
-        dispatch(updateEditorContent({
-          title,
-          image,
-          tags,
-          content,
-        }));
-
-        prevDataRef.current = data;
+      if (!h2 || !img) {
+        console.error('The content must contain a Header1 and an image.');
+        return;
       }
+
+      // Extract the title, image, and content
+      const title = h2.text;
+      const image = img.getAttribute('src');
+      const content = data.replace(h2.outerHTML, '').replace(img.outerHTML, '');
+
+
+      // Dispatch the updateEditorContent action with the title, image, tags, and content
+      dispatch(updateEditorContent({
+        title,
+        image,
+        tags,
+        content,
+      }));
+
     }, 1000);
 
     return () => clearInterval(interval);
   }, [data, dispatch, tags]);
 
+  // Dispatch the createPost or updatePost action when the user saves the post
+  const handleSavePost = () => {
+    const newPost = {
+      id: mode === 'edit' ? postId : Date.now().toString(),
+      title,
+      image,
+      tags,
+      content,
+    };
+
+    if (mode === 'edit') {
+      dispatch(updatePost(postId, newPost));
+    } else {
+      dispatch(createPost(newPost));
+    }
+  };
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={11}>
-          <CKEditor
-              editor={Editor}
-              data={data}
-              onReady={handleEditorReady}
-              onChange={(event, editor) => {
-                const responsiveData = editor.getData();
-                const root = parse(responsiveData);
+    <div>
+      <CKEditor
+        editor={Editor}
+        data={data}
+        onReady={handleEditorReady}
+        onChange={(event, editor) => {
+          const responsiveData = editor.getData();
+          const root = parse(responsiveData);
 
-                const h2 = root.querySelector('h2');
-                const img = root.querySelector('img');
+          const h2 = root.querySelector('h2');
+          const img = root.querySelector('img');
 
-                if (!h2 || !img) {
-                  console.error('The content must contain a Header1 and an image.');
-                  return;
-                }
+          if (!h2 || !img) {
+            console.error('The content must contain a Header1 and an image.');
+            return;
+          }
 
-                setData(responsiveData)
+          setData(responsiveData)
 
-                const wordCountPlugin = editor.plugins.get('WordCount');
-                setWordCount(wordCountPlugin.words);
-              }}
-              onBlur={(event, editor) => {}}
-              onFocus={(event, editor) => {}}
-          />
-        </Grid>
-        <Grid item xs={12} md={1}>
-          <Box position="fixed" top="25%" right="2%" zIndex="tooltip">
-            <WordCount wordCount={wordCount} />
-            <TagInput
-                tagInput={tagInput}
-                handleTagInputChange={handleTagInputChange}
-                handleAddTag={handleAddTag}
-                tags={tags}
-                handleDeleteTag={handleDeleteTag}
-            />
-          </Box>
-          <Box position="absolute" bottom={48} right={24} zIndex="tooltip">
-            <div
-                style={{position: 'fixed', bottom: "15%", right: "15%", width: 200, height: 200}}
-                onMouseEnter={() => setOpen(true)}
-                onMouseLeave={() => setOpen(false)}
-            >
-              <SpeedDialActions open={open} />
-            </div>
-          </Box>
-        </Grid>
-      </Grid>
+          const wordCountPlugin = editor.plugins.get('WordCount');
+          setWordCount(wordCountPlugin.words);
+        }}
+        onBlur={(event, editor) => {}}
+        onFocus={(event, editor) => {}}
+      />
+      <Box position="fixed" top="25%" right="6%" zIndex="tooltip">
+        <WordCount wordCount={wordCount}/>
+        <TagInput
+          tagInput={tagInput}
+          handleTagInputChange={handleTagInputChange}
+          handleAddTag={handleAddTag}
+          tags={tags}
+          handleDeleteTag={handleDeleteTag}
+        />
+      </Box>
+      <Box position="absolute" bottom={48} right={24} zIndex="tooltip">
+        <div
+          style={{position: 'fixed', bottom: "15%", right: "15%", width: 200, height: 200}}
+          onMouseEnter={() => setOpen(true)}
+          onMouseLeave={() => setOpen(false)}
+        >
+          <SpeedDialActions open={open} onSave={handleSavePost}/>
+        </div>
+      </Box>
+    </div>
   );
-
-}
+};
 
 export default editor;
