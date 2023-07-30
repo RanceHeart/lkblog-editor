@@ -2,21 +2,20 @@ import { Box, Typography, List, ListItem, Link, Grid } from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Profile from '../Profile/profile';
 import {Link as RouterLink} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {fetchPosts} from "../../reducer/actions"
 
-export interface PostProps {
-  id: string;
-  title: string;
-  image: string;
-  tags: string[];
-  content: string;
-  readTime: number;
-}
+const RecentPosts: React.FC = ( ) => {
+    const dispatch = useDispatch();
+    const posts = useSelector((state:any) => state.posts.posts.slice(0,3)) || [];  // Get the posts from the Redux store
 
-type RecentPostsProps = {
-  posts: PostProps[];
-};
+    useEffect(() => {
+        // @ts-ignore
+        dispatch(fetchPosts());  // Dispatch the fetchPosts action when the component mounts
+    }, [dispatch]);
 
-const RecentPosts: React.FC<RecentPostsProps> = ({ posts }) => {
+
   return (
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -32,7 +31,7 @@ const RecentPosts: React.FC<RecentPostsProps> = ({ posts }) => {
                   <ListItem key={post.id} sx={{ mb: 0.5 }}>
                     <Grid container spacing={1}>
                       <Grid item xs={12}>
-                        <Link component={RouterLink} to={`/post/${post.id}`} color="text.primary" underline="hover">
+                        <Link component={RouterLink} to={`/posts/${post.id}`} color="text.primary" underline="hover">
                           <Typography variant="subtitle1">{post.title}</Typography>
                         </Link>
                       </Grid>

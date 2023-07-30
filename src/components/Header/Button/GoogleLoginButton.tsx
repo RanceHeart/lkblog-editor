@@ -1,22 +1,51 @@
 // GoogleLoginButton.jsx
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setUserData} from '../../../reducer/actions';
-import {FaGoogle} from 'react-icons/fa';
+import {FaGoogle, FaSignOutAlt} from 'react-icons/fa';
 import {IconButton, Tooltip} from '@mui/material';
-import {useState} from 'react';
-import {useGoogleLogin} from "@react-oauth/google";
+import {useState, useEffect} from 'react';
+
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 const GoogleLoginButton = () => {
     const dispatch = useDispatch();
+    const userData = useSelector(state => state.user.userData);
     const [googleButtonScale, setGoogleButtonScale] = useState(1);
 
-    const login = useGoogleLogin({
+    const [ user, setUser ] = useState([]);
+
+    const logIn = useGoogleLogin({
         onSuccess: tokenResponse => {
-            console.log(tokenResponse)
-            dispatch(setUserData(tokenResponse));
+            // @ts-ignore
+            setUser(tokenResponse)
         },
     });
+
+    const logOut = () => {
+        googleLogout();
+        dispatch(setUserData(false));
+    };
+
+    useEffect(
+        () => {
+            if (user) {
+                axios
+                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
+                        headers: {
+                            Authorization: `Bearer ${user.access_token}`,
+                            Accept: 'application/json'
+                        }
+                    })
+                    .then((res) => {
+                        dispatch(setUserData(res.data.email === "rance.liki@gmail.com"));
+                    })
+                    .catch((err) => console.log(err));
+            }
+        },
+        [ user ]
+    );
 
     return (
         <Tooltip title="Google Login">
@@ -29,9 +58,9 @@ const GoogleLoginButton = () => {
                 onMouseDown={() => setGoogleButtonScale(0.95)}
                 onMouseUp={() => setGoogleButtonScale(1)}
                 sx={{transform: `scale(${googleButtonScale})`, transition: 'transform 0.3s ease'}}
-                onClick={() => login()}
+                onClick={() => userData === false ? logIn() : logOut() }
             >
-                <FaGoogle/>
+                { userData === false ? <FaGoogle/> : <FaSignOutAlt/>}
             </IconButton>
         </Tooltip>
     );

@@ -1,6 +1,6 @@
 import {Box, Button, Grid, IconButton, Input, useMediaQuery, useTheme} from '@mui/material';
 import {FaPen} from 'react-icons/fa';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {styled} from '@mui/system';
 import {useLocation, useNavigate} from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import Tooltip from '@mui/material/Tooltip';
 // Button
 import GoogleLoginButton from "./Button/GoogleLoginButton";
 import LogoButton from "./Button/LogoButton";
+
 
 const CoolInput = styled(Input)`
   ::placeholder {
@@ -66,7 +67,7 @@ const Header = () => {
                 <Grid item xs={12} sm={2}>
                     <LogoButton logoSize={logoSize} />
                 </Grid>
-                {location.pathname !== '/create-new-post' ? (
+                {location.pathname === '/' ? (
                     <Grid item xs={12} sm={4}>
                         <CoolInput
                             placeholder="Search posts"
@@ -85,14 +86,14 @@ const Header = () => {
                 )}
                 <Grid item xs={12} sm={5} container justifyContent="flex-end">
                     <Box mr={2}>
-                        {location.pathname === '/create-new-post' ? (
+                        {location.pathname !== '/' ? (
                             <div></div>
                         ) : (
                             createIconButton(
-                                <FaPen/>, "write", () => navigate('/create-new-post'), writeButtonScale, setWriteButtonScale)
+                                <FaPen/>, "write", () => navigate('/create-new-posts'), writeButtonScale, setWriteButtonScale)
                         )}
                     </Box>
-                    {location.pathname !== '/create-new-post' ? (
+                    {location.pathname === '/' ? (
                         <GoogleLoginButton/> // Use the GoogleLoginButton component
                     ) : (
                         <Box visibility="hidden">

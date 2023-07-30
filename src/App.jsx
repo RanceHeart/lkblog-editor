@@ -12,7 +12,7 @@ import {Provider} from "react-redux";
 
 
 const App = () => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
 
   const theme = useMemo(
     () => (prefersDarkMode ? darkTheme : lightTheme),
@@ -26,11 +26,10 @@ const App = () => {
             <ThemeProvider theme={theme}>
               <CssBaseline/>
               <Routes> {/* Use Routes to handle routing */}
-                <Route path="/post/:id" element={<PostView/>}/>
+                <Route path="/posts/:id" element={<PostView/>}/>
                 <Route path="/edit-post/:id" element={<CreateNewPost mode="edit"/>}/>
                 <Route path="/" element={<HomePage/>}/> {/* Define a route for the HomePage */}
-                <Route path="/create-new-post" element={<CreateNewPost mode="create"/>}/>
-                {/* Add more routes for other pages as needed */}
+                <Route path="/create-new-posts" element={<CreateNewPost mode="create" postId={'0'}/>}/>
               </Routes>
             </ThemeProvider>
         </div>

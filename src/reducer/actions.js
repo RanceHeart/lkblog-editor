@@ -1,10 +1,33 @@
-// CRUD for post
+// Loading case
+export const SET_LOADING = 'SET_LOADING';
+// CRUD for posts
 export const CREATE_POST = 'CREATE_POST';
-export const FETCH_POSTS = 'FETCH_POSTS';
-export const READ_POST = 'READ_POST';
-export const UPDATE_POST = 'UPDATE_POST';
-export const DELETE_POST = 'DELETE_POST';
+export const READ_POST_SUCCESS = 'READ_POST_SUCCESS';
 
+export const READ_POST_START = 'READ_POST_START';
+
+export const READ_POST_FAILURE = 'READ_POST_FAILURE';
+
+// Update Action
+export const UPDATE_POST = 'UPDATE_POST';
+
+export const FETCH_POSTS = 'FETCH_POSTS';
+
+// Delete Action
+export const DELETE_POST_START = 'DELETE_POST_START';
+export const DELETE_POST_SUCCESS = 'DELETE_POST_SUCCESS';
+export const DELETE_POST_FAILURE = 'DELETE_POST_FAILURE';
+
+// Update Action
+export const UPDATE_POST_START = 'UPDATE_POST_START';
+export const UPDATE_POST_SUCCESS = 'UPDATE_POST_SUCCESS';
+export const UPDATE_POST_FAILURE = 'UPDATE_POST_FAILURE';
+
+export const CREATE_POST_START = 'CREATE_POST_START';
+
+export const CREATE_POST_SUCCESS = 'CREATE_POST_SUCCESS';
+
+export const CREATE_POST_FAILURE = 'CREATE_POST_FAILURE';
 const initialState = {
   posts: [
     {
@@ -80,25 +103,74 @@ export const fetchPosts = () => {
   };
 };
 
-export const createPost = (post) => ({
-  type: CREATE_POST,
-  payload: post,
-});
+export const createPost = (post) => {
+  return (dispatch) => {
+    dispatch({type: CREATE_POST_START});
 
-export const readPost = (id) => ({
-  type: READ_POST,
-  payload: id,
-});
+    // Simulate a network request
+    new Promise((resolve) =>
+        setTimeout(() => resolve(post), 1000)  // Simulate a 1 second network delay
+    )
+        .then((post) => {
+          dispatch({
+            type: CREATE_POST_SUCCESS,
+            payload: {...post, id: initialState.posts.length + 1},
+          });
+        })
+        .catch((error) => {
+          dispatch({type: CREATE_POST_FAILURE, payload: error});
+        });
+  };
+};
 
-export const updatePost = (id, updatedPost) => ({
-  type: UPDATE_POST,
-  payload: { id, updatedPost },
-});
+export const updatePost = (id, updatedPost) => {
+  return (dispatch) => {
+    // Simulate a network request
+    new Promise((resolve) =>
+        setTimeout(() => resolve({id, updatedPost}), 1000)  // Simulate a 1 second network delay
+    )
+        .then(({id, updatedPost}) => {
+          dispatch({
+            type: UPDATE_POST_SUCCESS,
+            payload: {id, updatedPost},
+          });
+        })
+        .catch((error) => {
+          dispatch({type: UPDATE_POST_FAILURE, payload: error});
+        });
+  };
+};
 
-export const deletePost = (id) => ({
-  type: DELETE_POST,
-  payload: id,
-});
+export const readPost = (id) => {
+  return (dispatch) => {
+    dispatch({ type: 'READ_POST_START' });
+    // Set
+    new Promise((resolve) =>
+        setTimeout(() => resolve(initialState.posts.find(post => post.id === id)), 400)  // Simulate a 1 second network delay
+    )
+        .then((post) => {
+          console.log(id, post)
+          dispatch({ type: 'READ_POST_SUCCESS', payload: post });
+        });
+  };
+};
+
+export const deletePost = (id) => {
+  return (dispatch) => {
+    dispatch({ type: 'DELETE_POST_START' });
+
+    // Simulate a network request
+    new Promise((resolve) =>
+        setTimeout(() => resolve(id), 1000)  // Simulate a 1 second network delay
+    )
+        .then((id) => {
+          dispatch({ type: 'DELETE_POST_SUCCESS', payload: id });
+        })
+        .catch((error) => {
+          dispatch({ type: 'DELETE_POST_FAILURE', payload: error });
+        });
+  };
+};
 
 // CRUD for user
 export const SET_USER_DATA = 'SET_USER_DATA';

@@ -3,7 +3,7 @@
 import { SET_USER_DATA } from './actions';
 
 const initialState = {
-    userData: null,
+    userData: false,
 };
 
 const userReducer = (state = initialState, action) => {

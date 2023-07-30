@@ -116,7 +116,7 @@ const posts = [
 const PostView = () => {
   const {id} = useParams();
 
-  // Fetch the post's data based on the ID in the URL.
+  // Fetch the posts's data based on the ID in the URL.
   // This is just a placeholder. You'll need to replace this with your actual data fetching logic.
   const post = posts.find((post) => post.id === id);
 

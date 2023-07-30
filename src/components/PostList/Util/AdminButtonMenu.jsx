@@ -2,59 +2,61 @@ import {Box, IconButton, Link} from "@mui/material";
 
 import EditIcon from '@mui/icons-material/Edit';
 import HideSourceIcon from '@mui/icons-material/HideSource';
-import DeleteIcon from "@mui/icons-material/Delete.js";
-
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import {useState} from "react";
-import {Link as RouterLink} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {deletePost} from "../../../reducer/actions.js";
+import {useDispatch} from "react-redux"; // Import useNavigate
 
-const AdminButtonMenu = (postData) => {
+const AdminButtonMenu = ({postId}) => {
+    const dispatch = useDispatch();
 
-  const [bookmarkColor, setBookmarkColor] = useState('default');
-  const [likeColor, setLikeColor] = useState('default');
-  const [deleteColor, setDeleteColor] = useState('default');
+    const [bookmarkColor, setBookmarkColor] = useState('default');
+    const [likeColor, setLikeColor] = useState('default');
+    const [deleteColor, setDeleteColor] = useState('default');
 
-  return (
-    <Box sx={{display: 'flex', alignItems: 'center'}}>
-      <Link component={RouterLink} to={`/post/${postData.id}`} underline="none">
-        <IconButton
-          aria-label="edit"
-          color={bookmarkColor}
-          onMouseEnter={() => setBookmarkColor('default')}
-          onMouseLeave={() => setBookmarkColor('default')}
-          onClick={() => {
-            setBookmarkColor('warning')
-            history.push({
-              pathname: '/edit-post/:' + postData.id,
-              state: {mode: 'edit', postData: postData}
-            });
-          }}
-        >
-          <EditIcon/>
-        </IconButton>
-      </Link>
+    const navigate = useNavigate(); // Get access to the navigate function
 
-      <IconButton
-        aria-label="hide"
-        color={likeColor}
-        onMouseEnter={() => setLikeColor('default')}
-        onMouseLeave={() => setLikeColor('default')}
-        onClick={() => setLikeColor('info')}
-      >
-        <HideSourceIcon/>
-      </IconButton>
+    return (
+        <Box sx={{display: 'flex', alignItems: 'center'}}>
+            <IconButton
+                aria-label="edit"
+                color={bookmarkColor}
+                onMouseEnter={() => setBookmarkColor('default')}
+                onMouseLeave={() => setBookmarkColor('default')}
+                onClick={() => {
+                    setBookmarkColor('warning')
+                    navigate(`/edit-post/${postId}`, {state: {mode: 'edit', postId: postId}});
+                }}
+            >
+                <EditIcon/>
+            </IconButton>
 
-      <IconButton
-        aria-label="delete"
-        color={deleteColor}
-        onMouseEnter={() => setDeleteColor('default')}
-        onMouseLeave={() => setDeleteColor('default')}
-        onClick={() => setDeleteColor('error')}
-      >
-        <DeleteIcon/>
-      </IconButton>
-    </Box>
-  );
+            <IconButton
+                aria-label="hide"
+                color={likeColor}
+                onMouseEnter={() => setLikeColor('default')}
+                onMouseLeave={() => setLikeColor('default')}
+                onClick={() => setLikeColor('info')}
+            >
+                <HideSourceIcon/>
+            </IconButton>
+
+            <IconButton
+                aria-label="delete"
+                color={deleteColor}
+                onMouseEnter={() => setDeleteColor('default')}
+                onMouseLeave={() => setDeleteColor('default')}
+                onClick={() => {
+                    dispatch(deletePost(postId));
+                    setDeleteColor('error')
+                }}
+            >
+                <DeleteIcon/>
+            </IconButton>
+        </Box>
+    );
 }
 
 export default AdminButtonMenu;
