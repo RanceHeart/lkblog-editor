@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import {deletePost} from "../../../reducer/posts/post/postAction.js";
+import {deletePost} from "../../../reducer/posts/postsAction.js";
 import {useDispatch} from "react-redux"; // Import useNavigate
 
 const AdminButtonMenu = ({postId}) => {

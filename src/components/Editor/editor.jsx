@@ -5,8 +5,7 @@ import {Chip, IconButton, TextField, Typography,} from '@mui/material';
 import {Box} from "@mui/system";
 // Reducer
 import {useDispatch, useSelector} from 'react-redux';
-import {createPost, updatePost} from '../../reducer/posts/postsAction.js';
-import {readPost} from '../../reducer/posts/post/postAction.js'
+import {createPost, updatePost, readPost} from '../../reducer/posts/postsAction.js';
 import {updateEditorContent} from '../../reducer/editor/editorAction.js'
 
 import SpeedDialActions from "./Util/SpeedDialActions.jsx";
@@ -19,10 +18,9 @@ const EditorComponent = ({mode}) => {
 
     const dispatch = useDispatch();
     // All post
-    const allPostSize = useSelector((state) => state.posts.posts);
-
-    // Saving and loading data
-    const { post, isLoading } = useSelector((state) => state.post);
+    const allPost = useSelector((state) => state.posts.posts);
+    const isLoading = useSelector((state) => state.posts.isLoading);
+    const post = useSelector((state) => state.posts.post);
 
 
     // Tag field
@@ -71,8 +69,9 @@ const EditorComponent = ({mode}) => {
     useEffect(() => {
         if (mode === 'edit') {
             formatPostData(post);
+            console.log(post)
         }
-    }, [mode, id, post]);
+    }, [post]);
 
 
 
@@ -127,7 +126,7 @@ const EditorComponent = ({mode}) => {
         const content = doc.body.innerHTML;
 
         const newPost = {
-            id: mode === 'edit' ? id : allPostSize.length.toString(),
+            id: mode === 'edit' ? id : allPost.length.toString(),
             title: title,
             image: image,
             tags: tags,
@@ -136,10 +135,9 @@ const EditorComponent = ({mode}) => {
         };
 
 
-        console.log(mode)
         if (mode === 'edit') {
-            console.log(id)
-            dispatch(updatePost(id, newPost));
+            console.log(newPost)
+            dispatch(updatePost(newPost));
         } else {
             dispatch(createPost(newPost));
         }
@@ -148,8 +146,6 @@ const EditorComponent = ({mode}) => {
     // Loading case
     if (isLoading) {
         return <div>Loading...</div>;  // Replace this with your actual loading spinner or placeholder
-    }else{
-        // console.log(posts)
     }
 
     return (
