@@ -4,7 +4,7 @@ import Profile from '../Profile/profile';
 import {Link as RouterLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {fetchPosts} from "../../reducer/actions"
+import {fetchPosts} from "../../reducer/posts/postsAction.js"
 
 const RecentPosts: React.FC = ( ) => {
     const dispatch = useDispatch();

@@ -1,9 +1,10 @@
 // reducers/userReducer.js
 
-import { SET_USER_DATA } from './actions';
+import { SET_USER_DATA } from './userAction.js';
 
 const initialState = {
     userData: false,
+    isLoading: false
 };
 
 const userReducer = (state = initialState, action) => {

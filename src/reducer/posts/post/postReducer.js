@@ -2,16 +2,26 @@ import {
     READ_POST_START,
     READ_POST_SUCCESS,
     READ_POST_FAILURE,
+} from "./postAction.js";
+
+import {
     CREATE_POST_START,
     CREATE_POST_SUCCESS,
     CREATE_POST_FAILURE,
     UPDATE_POST_START,
     UPDATE_POST_SUCCESS,
     UPDATE_POST_FAILURE
-} from './actions';
+} from "../postsAction.js";
 
 const initialState = {
-    post: '',
+    post: {
+          id: '0',
+          title: '',
+          image: '',
+          tags: [],
+          content: '',
+          readTime: 1
+      },
     isLoading: false
 };
 

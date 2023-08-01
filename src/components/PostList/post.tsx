@@ -5,6 +5,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import AdminButtonMenu from './Util/AdminButtonMenu'
 import UserButtonMenu from './Util/UserButtonMenu'
 import {useSelector} from "react-redux";
+import ReactHtmlParser from 'react-html-parser';
 
 export interface PostProps {
     id: string;
@@ -63,7 +64,7 @@ const Post: React.FC<PostProps> = ({id, title, content, image, tags, readTime}) 
                     <Link component={RouterLink} to={`/posts/${id}`} color="text.primary" underline="none">
                         <Typography variant="h5">{title}</Typography>
                         <Typography variant="body1" color="text.secondary" mt={2}>
-                            {content}
+                          {ReactHtmlParser(content)}
                         </Typography>
                     </Link>
                     <Box sx={{mt: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>

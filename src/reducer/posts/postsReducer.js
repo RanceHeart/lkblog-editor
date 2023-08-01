@@ -1,12 +1,12 @@
-// reducer.js
+// postsReducer.js
 import {
-    CREATE_POST, CREATE_POST_SUCCESS,
+    CREATE_POST_SUCCESS,
     DELETE_POST_FAILURE,
     DELETE_POST_START,
     DELETE_POST_SUCCESS,
     FETCH_POSTS,
-    UPDATE_POST, UPDATE_POST_SUCCESS
-} from './actions';
+    UPDATE_POST_SUCCESS
+} from './postsAction.js';
 
 const initialState = {
     posts: [],  // Replace this with your initial posts data
@@ -29,7 +29,7 @@ const postsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 posts: state.posts.map(post =>
-                    post.id === action.payload.id ? action.payload.updatedPost : post
+                  post.id === action.payload.id ? action.payload : post
                 ),
             };
         case DELETE_POST_START:

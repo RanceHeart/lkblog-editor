@@ -3,7 +3,7 @@ import Post from './Post';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 
-import {fetchPosts} from "../../reducer/actions"
+import {fetchPosts} from "../../reducer/posts/postsAction.js"
 
 const PostList = () => {
   const dispatch = useDispatch();

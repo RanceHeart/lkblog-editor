@@ -1,8 +1,9 @@
-import {SET_LOADING, UPDATE_EDITOR_CONTENT} from './actions';
+import {UPDATE_EDITOR_CONTENT} from './editorAction.js';
 
 const initialState = {
   content: '',
   tags: [],
+  isLoading: false
 };
 
 const editorReducer = (state = initialState, action) => {
@@ -11,11 +12,6 @@ const editorReducer = (state = initialState, action) => {
       return {
         ...state,
         content: action.payload,
-      };
-    case SET_LOADING:
-      return {
-        ...state,
-        post: action.payload,
       };
     default:
       return state;

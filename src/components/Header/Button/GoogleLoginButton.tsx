@@ -1,7 +1,7 @@
 // GoogleLoginButton.jsx
 
 import {useDispatch, useSelector} from 'react-redux';
-import {setUserData} from '../../../reducer/actions';
+import {setUserData} from '../../../reducer/user/userAction.js';
 import {FaGoogle, FaSignOutAlt} from 'react-icons/fa';
 import {IconButton, Tooltip} from '@mui/material';
 import {useState, useEffect} from 'react';

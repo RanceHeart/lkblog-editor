@@ -3,8 +3,12 @@ import {CKEditor} from "@ckeditor/ckeditor5-react";
 import Editor from "./ckeditor.jsx";
 import {Chip, IconButton, TextField, Typography,} from '@mui/material';
 import {Box} from "@mui/system";
+// Reducer
 import {useDispatch, useSelector} from 'react-redux';
-import {createPost, readPost, updateEditorContent, updatePost} from '../../reducer/actions';
+import {createPost, updatePost} from '../../reducer/posts/postsAction.js';
+import {readPost} from '../../reducer/posts/post/postAction.js'
+import {updateEditorContent} from '../../reducer/editor/editorAction.js'
+
 import SpeedDialActions from "./Util/SpeedDialActions.jsx";
 import {toBase64} from "../helperFunction.js";
 import {useParams} from "react-router-dom";
@@ -15,7 +19,7 @@ const EditorComponent = ({mode}) => {
 
     const dispatch = useDispatch();
     // All post
-    const allPostSize = useSelector((state) => state.posts.posts.size);
+    const allPostSize = useSelector((state) => state.posts.posts);
 
     // Saving and loading data
     const { post, isLoading } = useSelector((state) => state.post);
@@ -115,16 +119,26 @@ const EditorComponent = ({mode}) => {
         const title = h2.textContent;
         const image = img.getAttribute('src');
 
+        // Remove the h2 and img elements from the doc
+        h2.remove();
+        img.remove();
+
+        // Get the remaining HTML as a string
+        const content = doc.body.innerHTML;
+
         const newPost = {
-            id: mode === 'edit' ? id : allPostSize.toString(),
+            id: mode === 'edit' ? id : allPostSize.length.toString(),
             title: title,
             image: image,
             tags: tags,
-            content: data,
+            content: content,
+            readTime: Math.round(1 + (wordCount / 238)).toString()
         };
 
 
+        console.log(mode)
         if (mode === 'edit') {
+            console.log(id)
             dispatch(updatePost(id, newPost));
         } else {
             dispatch(createPost(newPost));
