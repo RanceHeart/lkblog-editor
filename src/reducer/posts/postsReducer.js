@@ -1,10 +1,11 @@
 // postsReducer.js
 import {
+    UPDATE_FILTER_KEYWORD,
     CREATE_POST_SUCCESS,
     DELETE_POST_FAILURE,
     DELETE_POST_START,
     DELETE_POST_SUCCESS,
-    FETCH_POSTS,
+    FETCH_POSTS_FAILURE, FETCH_POSTS_START, FETCH_POSTS_SUCCESS,
     READ_POST_FAILURE,
     READ_POST_START,
     READ_POST_SUCCESS, UPDATE_POST_FAILURE, UPDATE_POST_START,
@@ -21,20 +22,38 @@ const initialState = {
         content: '',
         readTime: 1
     }, // Target post
+    filterKeyword: null, // Filter keywords
     isLoading: false
 };
 
 const postsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case FETCH_POSTS:
+        case UPDATE_FILTER_KEYWORD:
+            return {
+                ...state,
+                filterKeyword: action.payload,
+            };
+        case FETCH_POSTS_START:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case FETCH_POSTS_SUCCESS:
             return {
                 ...state,
                 posts: action.payload,
+                isLoading: false,
+            };
+        case FETCH_POSTS_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
             };
         case CREATE_POST_SUCCESS:
             return {
                 ...state,
                 posts: [...state.posts, action.payload],
+                isLoading: false,
             };
         case READ_POST_START:
             return {

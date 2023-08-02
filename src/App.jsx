@@ -1,18 +1,19 @@
 import React, {useEffect, useRef} from 'react';
 import {useMediaQuery, CssBaseline, ThemeProvider} from '@mui/material';
 import {lightTheme, darkTheme} from './themProvider';
-import HomePage from "./pages/HomePage";
+import Posts from "./pages/Posts.jsx";
 import {useMemo} from 'react';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import CreateNewPost from "./pages/CreateNewPost.jsx";
-import PostView from "./components/PostView/postView.jsx";
+import PostView from "./pages/PostView.jsx";
 // Redux Config
 import store from './reducer/store';
 import {Provider} from "react-redux";
+import HomePage from "./pages/HomePage.jsx";
 
 
 const App = () => {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)');
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   const theme = useMemo(
     () => (prefersDarkMode ? darkTheme : lightTheme),
@@ -28,7 +29,8 @@ const App = () => {
               <Routes> {/* Use Routes to handle routing */}
                 <Route path="/posts/:id" element={<PostView/>}/>
                 <Route path="/edit-post/:id" element={<CreateNewPost mode="edit"/>}/>
-                <Route path="/" element={<HomePage/>}/> {/* Define a route for the HomePage */}
+                <Route path="/" element={<Posts/>}/>
+                <Route path="/HomePage" element={<HomePage/>}/>
                 <Route path="/create-new-posts" element={<CreateNewPost mode="create" postId={'0'}/>}/>
               </Routes>
             </ThemeProvider>

@@ -1,14 +1,15 @@
-import {Box, Button, Grid, IconButton, Input, useMediaQuery, useTheme} from '@mui/material';
-import {FaPen} from 'react-icons/fa';
-import {useState} from 'react';
+import {Box, Button, Grid, Input, useMediaQuery, useTheme} from '@mui/material';
+import {useEffect, useState} from 'react';
 import {styled} from '@mui/system';
-import {useLocation, useNavigate} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 
-import Tooltip from '@mui/material/Tooltip';
-
+import {updateFilterKeyword} from '../../reducer/posts/postsAction.js'
 // Button
 import GoogleLoginButton from "./Button/GoogleLoginButton";
 import LogoButton from "./Button/LogoButton";
+import WritePostButton from "./Button/WritePostButton";
+
+import {useDispatch, useSelector} from "react-redux";
 
 
 const CoolInput = styled(Input)`
@@ -25,12 +26,13 @@ const CoolInput = styled(Input)`
 `;
 
 const Header = () => {
+    const dispatch = useDispatch();
+
+    const userData = useSelector(state => state.user.userData);
+
     const [inputValue, setInputValue] = useState<String>('');
 
     // Button controller
-    const [writeButtonScale, setWriteButtonScale] = useState(1);
-
-    const navigate = useNavigate();
     const location = useLocation();
 
     const theme = useTheme();
@@ -40,29 +42,16 @@ const Header = () => {
 
     const handleInputChange = (event) => {
         setInputValue(event.target.value);
+        dispatch(updateFilterKeyword(event.target.value));  // Dispatch an action to update the filter keyword in the Redux store
     };
 
-    const createIconButton = (icon, ariaLabel, onClick, scale, setScale) => {
-        return (
-            <Tooltip title={ariaLabel}>
-                <IconButton
-                    aria-label={ariaLabel}
-                    size="large"
-                    color="primary"
-                    onClick={onClick}
-                    onMouseEnter={() => setScale(1.05)}
-                    onMouseLeave={() => setScale(1)}
-                    onMouseDown={() => setScale(0.95)}
-                    onMouseUp={() => setScale(1)}
-                    sx={{transform: `scale(${scale})`, transition: 'transform 0.3s ease'}}>
-                    {icon}
-                </IconButton>
-            </Tooltip>
-        );
-    };
-
+    useEffect(() => {
+        return () => {
+            dispatch(updateFilterKeyword(null));  // Clear the input value when the component is unmounted
+        };
+    }, [location]);
     return (
-        <Box sx={{bg: theme.palette.background.default, w: '100%', p: 4, color: 'white'}}>
+        <Box sx={{bg: theme.palette.background.default, w: '100%', p: 4, color: 'white', top: 0, left: 0, right: 0, position: 'fixed', zIndex: 1000}}>
             <Grid container alignItems="center" spacing={2}>
                 <Grid item xs={12} sm={2}>
                     <LogoButton logoSize={logoSize} />
@@ -89,8 +78,7 @@ const Header = () => {
                         {location.pathname !== '/' ? (
                             <div></div>
                         ) : (
-                            createIconButton(
-                                <FaPen/>, "write", () => navigate('/create-new-posts'), writeButtonScale, setWriteButtonScale)
+                            userData && <WritePostButton />
                         )}
                     </Box>
                     {location.pathname === '/' ? (

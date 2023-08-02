@@ -47,7 +47,7 @@ const EditorComponent = ({mode}) => {
     // Set Initial data
     useEffect(() => {
         if (mode === 'edit') {
-            dispatch(readPost(id));
+            dispatch(readPost(id.toString()));
         } else {
             initialData();
         }

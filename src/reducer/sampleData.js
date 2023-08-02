@@ -51,7 +51,7 @@ export const initialState = {
     {
       id: "7",
       title: 'The Rise of Electric Vehicles',
-      image: 'https://placebeard.it/640x360',
+      image: 'https://placekitten.com/1280/640',
       tags: ['Electric Vehicles', 'Technology', 'Auto'],
       content: '<p>Electric vehicles are changing the future of auto travel. The electric vehicle market has grown substantially over the past few years and its not slowing down...</p>',
       readTime: '7'

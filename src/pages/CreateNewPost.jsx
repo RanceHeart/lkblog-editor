@@ -23,7 +23,7 @@ function CreateNewPost({ mode }) {
     }
 
     return (
-        <Box sx={{ mx: 'auto', px: 6 }}>
+        <Box sx={{ mx: 'auto', px: 6, paddingTop: '150px'}}>
             <Box>
                 <Header />
             </Box>

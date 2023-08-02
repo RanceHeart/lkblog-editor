@@ -10,6 +10,7 @@ const RecentPosts: React.FC = ( ) => {
     const dispatch = useDispatch();
     const posts = useSelector((state:any) => state.posts.posts.slice(0,3)) || [];  // Get the posts from the Redux store
 
+
     useEffect(() => {
         // @ts-ignore
         dispatch(fetchPosts());  // Dispatch the fetchPosts action when the component mounts
