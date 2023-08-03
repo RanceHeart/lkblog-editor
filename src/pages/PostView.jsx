@@ -14,6 +14,7 @@ const PostView = () => {
 
   // Fetch the post's data based on the ID in the URL.
   useEffect(() => {
+    console.log(id)
     dispatch(readPost(id));
   }, [id, dispatch]);
 

@@ -1,4 +1,6 @@
 import {initialState} from "../sampleData.js";
+import * as ROUTES from "../../route/posts.js";
+import api from "../../route/api.js";
 
 export const UPDATE_FILTER_KEYWORD = 'UPDATE_FILTER_KEYWORD';
 export const DELETE_POST_START = 'DELETE_POST_START';
@@ -24,20 +26,18 @@ export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
 
 export const fetchPosts = () => {
     return (dispatch) => {
-      dispatch({type: FETCH_POSTS_START});
+        dispatch({type: FETCH_POSTS_START});
 
-        new Promise((resolve) =>
-            setTimeout(() => resolve(initialState.posts), 1000)  // Simulate a 2 second network delay
-        )
-            .then((posts) => {
+        api.get(ROUTES.POSTS)
+            .then((response) => {
                 dispatch({
                     type: FETCH_POSTS_SUCCESS,
-                    payload: posts,
+                    payload: response.data,
                 });
             })
-          .catch((error) => {
-            dispatch({type: FETCH_POSTS_FAILURE, payload: error});
-          });;
+            .catch((error) => {
+                dispatch({type: FETCH_POSTS_FAILURE, payload: error});
+            });
     };
 };
 
@@ -45,17 +45,11 @@ export const createPost = (post) => {
     return (dispatch) => {
         dispatch({type: CREATE_POST_START});
 
-        // Simulate a network request
-        new Promise((resolve) =>
-            setTimeout(() => resolve({...post, id: initialState.posts.length + 1}), 1000)  // Simulate a 1-second network delay
-        )
-            .then((post) => {
-                // fake operation
-                initialState.posts.push(post);
-
+        api.post(ROUTES.ADD_POST, post)
+            .then((response) => {
                 dispatch({
                     type: CREATE_POST_SUCCESS,
-                    payload: post,
+                    payload: response.data,
                 });
             })
             .catch((error) => {
@@ -68,19 +62,11 @@ export const updatePost = (updatedPost) => {
     return (dispatch) => {
         dispatch({type: UPDATE_POST_START});
 
-        // Simulate a network request
-        new Promise((resolve) =>
-            setTimeout(() => resolve(updatedPost), 1000)  // Simulate a 1-second network delay
-        )
-            .then((updatedPost) => {
-                // fake operation
-                initialState.posts = initialState.posts.map((post) => {
-                    return post.id === updatedPost.id ? updatedPost : post;
-                });
-
+        api.post(ROUTES.UPDATE_POST(updatedPost.id), updatedPost)
+            .then((response) => {
                 dispatch({
                     type: UPDATE_POST_SUCCESS,
-                    payload: updatedPost,
+                    payload: response.data,
                 });
             })
             .catch((error) => {
@@ -93,11 +79,8 @@ export const deletePost = (id) => {
     return (dispatch) => {
         dispatch({type: DELETE_POST_START});
 
-        // Simulate a network request
-        new Promise((resolve) =>
-            setTimeout(() => resolve(id), 1000)  // Simulate a 1 second network delay
-        )
-            .then((id) => {
+        api.delete(ROUTES.DELETE_POST(id))
+            .then((response) => {
                 dispatch({type: DELETE_POST_SUCCESS, payload: id});
             })
             .catch((error) => {
@@ -109,13 +92,13 @@ export const deletePost = (id) => {
 export const readPost = (id) => {
     return (dispatch) => {
         dispatch({type: READ_POST_START});
-        // Set
-        new Promise((resolve) =>
-            setTimeout(() => resolve(initialState.posts.find(post => post.id === id)), 400)  // Simulate a 1 second network delay
-        )
-            .then((post) => {
-                console.log(post)
-                dispatch({type: READ_POST_SUCCESS, payload: post});
+
+        api.get(ROUTES.READ_POST(id))
+            .then((response) => {
+                dispatch({type: READ_POST_SUCCESS, payload: response.data});
+            })
+            .catch((error) => {
+                dispatch({type: READ_POST_FAILURE, payload: error});
             });
     };
 };

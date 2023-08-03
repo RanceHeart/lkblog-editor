@@ -69,7 +69,6 @@ const EditorComponent = ({mode}) => {
     useEffect(() => {
         if (mode === 'edit') {
             formatPostData(post);
-            console.log(post)
         }
     }, [post]);
 

@@ -39,7 +39,7 @@ const GoogleLoginButton = () => {
                         }
                     })
                     .then((res) => {
-                        dispatch(setUserData(res.data.email === "rance.liki@gmail.com"));
+                        dispatch(setUserData(res.data.email === import.meta.env.VITE_APP_ADMIN_EMAIL));
                     })
                     .catch((err) => console.log(err));
             }
