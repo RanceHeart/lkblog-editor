@@ -6,7 +6,6 @@ import {Box} from "@mui/system";
 // Reducer
 import {useDispatch, useSelector} from 'react-redux';
 import {createPost, updatePost, readPost} from '../../reducer/posts/postsAction.js';
-import {updateEditorContent} from '../../reducer/editor/editorAction.js'
 
 import SpeedDialActions from "./Util/SpeedDialActions.jsx";
 import {toBase64} from "../helperFunction.js";
@@ -72,36 +71,6 @@ const EditorComponent = ({mode}) => {
         }
     }, [post]);
 
-
-
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         const root = parse(data);
-    //         const h2 = root.querySelector('h2');
-    //         const img = root.querySelector('img');
-    //
-    //         if (!h2 || !img) {
-    //             console.error('The content must contain a Header1 and an image.');
-    //             return;
-    //         }
-    //
-    //         const title = h2.text;
-    //         const image = img.getAttribute('src');
-    //
-    //         const content = data.replace(h2.outerHTML, '').replace(img.outerHTML, '');
-    //
-    //         dispatch(updateEditorContent({
-    //             title,
-    //             image,
-    //             tags,
-    //             content,
-    //         }));
-    //
-    //     }, 1000);
-    //
-    //     return () => clearInterval(interval);
-    // }, [data, dispatch, tags]);
-
     const handleSavePost = () => {
         // Get data from the data
         const parser = new DOMParser();
@@ -130,7 +99,7 @@ const EditorComponent = ({mode}) => {
             image: image,
             tags: tags,
             content: content,
-            readTime: Math.round(1 + (wordCount / 238)).toString()
+            readTime: Math.round(1 + (wordCount / 100)).toString()
         };
 
 
@@ -148,7 +117,7 @@ const EditorComponent = ({mode}) => {
     }
 
     return (
-        <div>
+        <div style={{zIndex: 1000}}>
             <CKEditor
                 editor={Editor}
                 data={data}

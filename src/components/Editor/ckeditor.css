@@ -112,7 +112,6 @@
 
     --ck-color-link-default: hsl(190, 100%, 75%);
 }
-
 /* --------- EDITOR STYLES  ---------------------------------------------------------------------------------------- */
 
 .editor__editable,
@@ -596,7 +595,6 @@ footer {
         width: 100%;
 
     /* --------- EDITOR STYLES  ---------------------------------------------------------------------------------------- */
-
     .editor__editable,
         /* Classic build. */
     main .ck-editor[role='application'] .ck.ck-content,
@@ -648,9 +646,9 @@ footer {
         height: fit-content;
         padding: 2cm 1.2cm;
         margin: 2.5rem;
-        border: 1px hsl( 0, 0%, 82.7% ) solid;
+        border: 1px hsl(0, 0%, 82.7%) solid;
         background-color: var(--ck-color-background);
-        box-shadow: 0 0 5px hsla( 0, 0%, 0%, .1 );
+        box-shadow: 0 0 5px hsla(0, 0%, 0%, .1);
         box-sizing: border-box;
     }
 
@@ -714,13 +712,13 @@ footer {
         top: 30px;
         border: 0;
         padding: 0;
-        color: hsl( 0, 0%, 50% );
+        color: hsl(0, 0%, 50%);
         transition: 250ms ease color;
         background-color: transparent;
     }
 
     #sidebar-display-toggle:hover {
-        color: hsl( 0, 0%, 30% );
+        color: hsl(0, 0%, 30%);
         cursor: pointer;
     }
 
@@ -797,12 +795,12 @@ footer {
         margin-right: 1em;
         outline-offset: 2px;
         outline-width: 2px;
-        background-color: var( --ck-sample-color-blue );
+        background-color: var(--ck-sample-color-blue);
     }
 
     .collaboration-demo__topbar .btn:focus,
     .collaboration-demo__topbar .btn:hover {
-        border-color: var( --ck-sample-color-blue );
+        border-color: var(--ck-sample-color-blue);
     }
 
     .collaboration-demo__share {
@@ -846,7 +844,7 @@ footer {
         visibility: hidden;
         opacity: 0;
         pointer-events: none;
-        transition: all .15s cubic-bezier(.5,1,.25,1);
+        transition: all .15s cubic-bezier(.5, 1, .25, 1);
         z-index: 1;
     }
 
@@ -894,7 +892,6 @@ footer {
     }
 
     /* --------- PAGINATION FEATURE ------------------------------------------------------------------------------------ */
-
     /* Pagination view line must be stacked at least at the same level as the Editor,
        otherwise it will be hidden underneath. */
     .ck.ck-pagination-view-line {
@@ -902,7 +899,6 @@ footer {
     }
 
     /* --------- REVISION HISTORY FEATURE ------------------------------------------------------------------------------ */
-
     .revision-viewer-container {
         display: none;
     }
@@ -925,7 +921,6 @@ footer {
     }
 
     /* --------- DOCUMENT OUTLINE FEATURE ------------------------------------------------------------------------------ */
-
     .document-outline-container {
         max-height: 80vh;
         overflow-y: auto;
@@ -1048,7 +1043,7 @@ footer {
         font-size: 1rem;
         user-select: none;
         border-radius: 4px;
-        transition: color .2s ease-in-out,background-color .2s ease-in-out,border-color .2s ease-in-out,opacity .2s ease-in-out;
+        transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out, opacity .2s ease-in-out;
         background-color: var(--ck-sample-color-button-blue);
         border-color: var(--ck-sample-color-button-blue);
         color: var(--ck-color-background);
@@ -1061,10 +1056,10 @@ footer {
     }
 
     footer {
-        margin: calc(2*var(--ck-sample-base-spacing)) var(--ck-sample-base-spacing);
+        margin: calc(2 * var(--ck-sample-base-spacing)) var(--ck-sample-base-spacing);
         font-size: .8em;
         text-align: center;
-        color: rgba(0,0,0,.4);
+        color: rgba(0, 0, 0, .4);
     }
 
     /* --------- RWD --------------------------------------------------------------------------------------------------- */
@@ -1098,15 +1093,16 @@ footer {
 
 }
 
-    header h1 img {
-        height: 40px;
-    }
+header h1 img {
+    height: 40px;
+}
 
-    header nav ul {
-        text-align: right;
-    }
+header nav ul {
+    text-align: right;
+}
 
-    main .message h2 {
-        font-size: 1.5em;
-    }
+main .message h2 {
+    font-size: 1.5em;
+}
+
 }

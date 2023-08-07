@@ -1,7 +1,8 @@
+
 import { useEffect, useState } from 'react';
-import {Link as RouterLink, useParams} from 'react-router-dom';
-import {Box} from "@mui/system";
-import {Chip, Grid, Link, Typography} from "@mui/material";
+import {useParams} from 'react-router-dom';
+import {Box, Container} from "@mui/system";
+import {Chip, Typography, useMediaQuery, useTheme} from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Header from "../components/Header/header";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,13 +13,13 @@ const PostView = () => {
   const {id} = useParams();
   const dispatch = useDispatch();
 
-  // Fetch the post's data based on the ID in the URL.
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   useEffect(() => {
-    console.log(id)
     dispatch(readPost(id));
   }, [id, dispatch]);
 
-  // Get the post data from the Redux store
   const post = useSelector(state => state.posts.post);
 
   if (!post) {
@@ -26,34 +27,34 @@ const PostView = () => {
   }
 
   return (
-    <Box sx={{mx: 'auto', px: 6, paddingTop: '150px'}}>
+    <Box sx={{mx: 'auto', px: { xs: 2, sm: 3, md: 6 }, paddingTop: '150px'}}>
       <Box>
         <Header/>
       </Box>
-      <Box sx={{ maxWidth: '800px', mx: 'auto', px: 6 }}>
+      <Container maxWidth="lg">
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" gutterBottom>
             {post.title}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, flexWrap: 'wrap' }}>
           {post.tags.map((tag, index) => (
-            <Chip key={index} label={tag} variant="outlined" sx={{ mr: 1 }} />
+            <Chip key={index} label={tag} variant="outlined" sx={{ mr: 1, mb: 1 }} />
           ))}
           <Typography variant="body2" color="text.secondary">
             <AccessTimeIcon sx={{ mr: 1, fontSize: 20 }} />
             {post.readTime} min read
           </Typography>
         </Box>
-        <Box sx={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
-          <img src={post.image} alt="Post" style={{ width: '100%', height: 'auto', objectFit: 'cover' }}/>
+        <Box sx={{ width: '100%', overflow: 'hidden' }}>
+          <img src={post.image} alt="Post" style={{ width: '100%', maxHeight: isSmallScreen ? 'auto' : '400px', objectFit: 'contain' }}/>
         </Box>
         <Box sx={{ mt: 4 }}>
           <Typography variant="body1">
             {ReactHtmlParser(post.content)}
           </Typography>
         </Box>
-      </Box>
+      </Container>
     </Box>
   )
 };

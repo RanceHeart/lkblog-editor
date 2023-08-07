@@ -1,4 +1,4 @@
-import {Box, Chip, Grid, Link, Typography} from '@mui/material';
+import {Box, Chip, Grid, Link, Typography, useMediaQuery} from '@mui/material';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import {useState} from "react";
 import {Link as RouterLink} from 'react-router-dom';
@@ -8,29 +8,32 @@ import {useSelector} from "react-redux";
 import ReactHtmlParser from 'react-html-parser';
 // @ts-ignore
 import React from 'react';
+import {useTheme} from "@mui/styles";
 
 export interface PostProps {
-    id: string;
-    title: string;
-    image: string;
-    tags: string[];
-    content: string;
-    readTime: number;
+  id: string;
+  title: string;
+  image: string;
+  tags: string[];
+  content: string;
+  readTime: number;
 }
 
 interface RootState {
-    user: {
-        userData: any; // replace 'any' with the actual type of your user data
-    };
-    // other state properties...
+  user: {
+    userData: any; // replace 'any' with the actual type of your user data
+  };
+  // other state properties...
 }
 
 const Post = React.memo(({id, title, content, image, tags, readTime}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [postHovered, setPostHovered] = useState(false);
-  const [postClicked, setPostClicked] = useState(false);
 
   const userData = useSelector((state: RootState) => state.user.userData);
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
       <Box
@@ -51,24 +54,21 @@ const Post = React.memo(({id, title, content, image, tags, readTime}) => {
             setPostHovered(false);
             setIsHovered(false);
           }}
-          onMouseDown={() => setPostClicked(true)}
-          onMouseUp={() => setPostClicked(false)}
       >
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} md={isSmallScreen ? 12 : 4}>
             <Link component={RouterLink} to={`/posts/${id}`} color="text.primary" underline="none">
-              <Box sx={{width: '100%', height: '300px', overflow: 'hidden'}}>
-                <img src={image} alt="Post" style={{width: '100%', height: 'auto'}}/>
+              <Box sx={{width: '100%', height: isSmallScreen ? '200px' : '300px', overflow: 'hidden'}}>
+                <img src={image} alt="Post" style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
               </Box>
             </Link>
           </Grid>
-          <Grid item xs={12} sm={8}>
+          <Grid item xs={12} md={isSmallScreen ? 12 : 8}>
             <Link component={RouterLink} to={`/posts/${id}`} color="text.primary" underline="none">
-              <Typography variant="h5">{title}</Typography>
+              <Typography variant={isSmallScreen ? 'h6' : 'h5'}>{title}</Typography>
               <Typography variant="body1" color="text.secondary" mt={2}>
-                {ReactHtmlParser(content.length > 200 ? content.substring(0, 200) + '...' : content)}
+                {ReactHtmlParser(content.length > 350 ? content.substring(0, 350) + '...' : content)}
               </Typography>
-
             </Link>
             <Box sx={{mt: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
               <Box
@@ -107,4 +107,3 @@ const Post = React.memo(({id, title, content, image, tags, readTime}) => {
 });
 
 export default Post;
-
