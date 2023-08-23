@@ -26,6 +26,14 @@ interface RootState {
   // other state properties...
 }
 
+function transformCloudinaryUrl(url, width = 300, height = 400) {
+  const parts = url.split('/');
+  const indexToInsert = parts.findIndex(part => part.startsWith('v1'));
+  parts.splice(indexToInsert, 0, `c_fill,h_${height},w_${width}`);
+  return parts.join('/');
+}
+
+
 const Post = React.memo(({id, title, content, image, tags, readTime}) => {
   const [isHovered, setIsHovered] = useState(false);
   const [postHovered, setPostHovered] = useState(false);
@@ -59,7 +67,7 @@ const Post = React.memo(({id, title, content, image, tags, readTime}) => {
           <Grid item xs={12} md={isSmallScreen ? 12 : 4}>
             <Link component={RouterLink} to={`/posts/${id}`} color="text.primary" underline="none">
               <Box sx={{width: '100%', height: isSmallScreen ? '200px' : '300px', overflow: 'hidden'}}>
-                <img src={image} alt="Post" style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
+                <img src={transformCloudinaryUrl(image)} alt="Post" style={{width: '100%', height: '100%', objectFit: 'cover'}}/>
               </Box>
             </Link>
           </Grid>

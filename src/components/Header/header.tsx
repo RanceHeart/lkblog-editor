@@ -54,7 +54,7 @@ const Header = () => {
         left: 0,
         right: 0,
         position: 'fixed',
-        zIndex: 500
+        zIndex: 0
       }}>
         <Grid container alignItems="center" spacing={2}>
           <Grid item xs={6} sm={2}>

@@ -5,7 +5,7 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#000000', // light purple
+      main: '#000000', // black
     },
     secondary: {
       main: '#f50057', // pink
@@ -20,9 +20,9 @@ const lightTheme = createTheme({
       MuiCssBaseline: {
         '@global': {
           ':root': {
-            '--ck-color-primary': '#3f51b5', // light purple
-            '--ck-color-background': '#ffffff', // white
-            '--ck-color-text': '#000000', // black
+            '--ck-color-primary': '#3f51b5',
+            '--ck-color-background': '#ffffff',
+            '--ck-color-text': '#000000',
           },
         },
       },
@@ -40,7 +40,7 @@ const darkTheme = createTheme({
       main: '#1fb622',
     },
     background: {
-      default: '#303030',
+      default: '#252525',
     },
     text: {
       primary: '#ffffff', // white

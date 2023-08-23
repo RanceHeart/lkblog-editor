@@ -20,7 +20,6 @@ import {
 } from "@ckeditor/ckeditor5-image";
 import {SourceEditing} from '@ckeditor/ckeditor5-source-editing';
 import {Autosave} from "@ckeditor/ckeditor5-autosave";
-import {Base64UploadAdapter} from "@ckeditor/ckeditor5-upload";
 import {BlockToolbar} from "@ckeditor/ckeditor5-ui";
 import {CloudServices} from "@ckeditor/ckeditor5-cloud-services";
 import {CodeBlock} from "@ckeditor/ckeditor5-code-block";
@@ -35,7 +34,10 @@ import {ShowBlocks} from '@ckeditor/ckeditor5-show-blocks';
 
 import {GeneralHtmlSupport} from '@ckeditor/ckeditor5-html-support';
 import {Style} from '@ckeditor/ckeditor5-style';
+
+
 import './ckeditor.css'
+import {SimpleUploadAdapter} from "@ckeditor/ckeditor5-upload";
 
 ClassicEditorBase.builtinPlugins = [
     GeneralHtmlSupport,
@@ -43,7 +45,7 @@ ClassicEditorBase.builtinPlugins = [
     AutoImage,
     Autoformat,
     Autosave,
-    Base64UploadAdapter,
+    SimpleUploadAdapter,
     BlockQuote,
     BlockToolbar,
     Bold,
