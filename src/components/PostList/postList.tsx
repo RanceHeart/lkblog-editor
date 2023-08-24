@@ -34,11 +34,12 @@ const PostList = () => {
   }
 
   const theme = useTheme();
+  // @ts-ignore
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
       <Container maxWidth={isSmallScreen ? 'sm' : 'md' }>
-        {filteredPosts.map((post, index) => (
+        {filteredPosts.reverse().map((post, index) => (
             <Post key={index} {...post} sx={{my: 4}}/>
         ))}
       </Container>

@@ -1,7 +1,7 @@
 import { Box, Grid, useMediaQuery, useTheme } from '@mui/material';
 import Header from '../components/Header/header';
 import PostList from '../components/PostList/postList';
-import RecentPosts from '../components/RecentPosts/recentPosts';
+import TagSelection from '../components/RecentPosts/RecentPosts';
 
 function Posts() {
   const theme = useTheme();
@@ -21,7 +21,7 @@ function Posts() {
           </Grid>
           <Grid item xs={12} md={4}>
             <Box sx={{ position: isSmallScreen ? 'static' : 'sticky', top: '0', p: 3 }}>
-              <RecentPosts />
+              <TagSelection />
             </Box>
           </Grid>
         </Grid>

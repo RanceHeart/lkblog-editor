@@ -27,11 +27,12 @@ const PostView = () => {
   }
 
   return (
-    <Box sx={{mx: 'auto', px: { xs: 2, sm: 3, md: 6 }, paddingTop: '150px'}}>
+    <Box sx={{mx: 'auto', px: { xs: 2, sm: 3, md: 6 }, paddingTop: '100px'}}>
       <Box>
         <Header/>
       </Box>
       <Container maxWidth="lg">
+        <img src={post.image} alt="Post" style={{ width: '100%',  objectFit: 'contain' }}/>
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" gutterBottom>
             {post.title}
@@ -45,9 +46,6 @@ const PostView = () => {
             <AccessTimeIcon sx={{ mr: 1, fontSize: 20 }} />
             {post.readTime} min read
           </Typography>
-        </Box>
-        <Box sx={{ width: '100%', overflow: 'hidden' }}>
-          <img src={post.image} alt="Post" style={{ width: '100%', maxHeight: isSmallScreen ? 'auto' : '400px', objectFit: 'contain' }}/>
         </Box>
         <Box sx={{ mt: 4 }}>
           <Typography variant="body1">

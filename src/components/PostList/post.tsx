@@ -41,6 +41,7 @@ const Post = React.memo(({id, title, content, image, tags, readTime}) => {
   const userData = useSelector((state: RootState) => state.user.userData);
 
   const theme = useTheme();
+  // @ts-ignore
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
@@ -97,7 +98,7 @@ const Post = React.memo(({id, title, content, image, tags, readTime}) => {
                         sx={{
                           mr: 1,
                           mt: 1,
-                          fontSize: `${1 - index * 0.15}em` // Decrease font size based on index
+                          fontSize: `${1}em` // Decrease font size based on index
                         }}
                     />
                 ))}
