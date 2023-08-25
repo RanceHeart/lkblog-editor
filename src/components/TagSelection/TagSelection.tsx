@@ -4,14 +4,14 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'; // Importing an
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'; // Importing an arrow icon for demonstration
 
 const tags = [
-  {name: 'TouHouTag', src: '/public/tags/TouHouTag.png'},
-  {name: 'TravelTag', src: '/public/tags/TravelTag.png'},
-  {name: 'BookTag', src: '/public/tags/BookTag.png'},
-  {name: 'CameraTag', src: '/public/tags/PhotoTag.png'},
-  {name: 'CookingTag', src: '/public/tags/CookTag.png'}
+  {name: 'Touhou', src: '/public/tags/TouHouTag.png'},
+  {name: 'Travel', src: '/public/tags/TravelTag.png'},
+  {name: 'Book', src: '/public/tags/BookTag.png'},
+  {name: 'Camera', src: '/public/tags/PhotoTag.png'},
+  {name: 'Cooking', src: '/public/tags/CookTag.png'}
 ];
 
-const TagSelection: React.FC = () => {
+const TagSelection: React.FC<{ onTagClick: (tagName: string) => void }> = ({ onTagClick }) => {
   const [topTagIndex, setTopTagIndex] = useState(0);
 
   const rotateTags = (direction: number) => {
@@ -20,34 +20,33 @@ const TagSelection: React.FC = () => {
   };
 
   return (
-      <div style={{ position: 'relative', height: '250px', perspective: '1200px', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '300px', height: '300px', borderRadius: '50%', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: '140px', perspective: '1000px', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '55%', left: '40%', transform: 'translate(-50%, -50%)', width: '300px', height: '300px', borderRadius: '50%', overflow: 'hidden' }}>
           {tags.map((tag, index) => {
-            const rotation = 120 * (index - topTagIndex);
+            const rotation = 72 * (index - topTagIndex); // Adjusted rotation degree for 5 tags (360/5 = 72)
             return (
                 <div
                     key={tag.name}
                     style={{
                       position: 'absolute',
-                      top: '50%',
-                      left: '18%',
-                      transform: `rotate(${rotation}deg) translateY(-150px)`,
+                      top: '70%',
+                      left: '25%',
+                      transform: `rotate(${rotation}deg) translateY(-150px)`, // Adjusted translateY for correct radius
                       transformOrigin: 'center bottom',
                       opacity: Math.abs(rotation) < 180 ? 1 : 0,
                       transition: 'transform 0.3s, opacity 0.3s',
                     }}
                 >
-                  <img
-                      src={tag.src}
-                      alt={tag.name}
-                      style={{ width: '200px' }}
-                  />
                   <IconButton
-                      size="small"
-                      style={{ position: 'absolute', right: 0, top: 0 }}
-                      onClick={() => console.log(tag.name)}
+                      onClick={() => {
+                        console.log(tag.name)
+                        onTagClick(tag.name)}}
                   >
-                    {/* Icon here */}
+                    <img
+                        src={tag.src}
+                        alt={tag.name}
+                        style={{ width: '150px' }}
+                    />
                   </IconButton>
                 </div>
             );
@@ -70,5 +69,6 @@ const TagSelection: React.FC = () => {
       </div>
   );
 };
+
 
 export default TagSelection;

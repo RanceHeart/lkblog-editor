@@ -3,12 +3,18 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TagSelection from '../TagSelection/TagSelection';
 import {Link as RouterLink} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {fetchPosts} from "../../reducer/posts/postsAction.js"
 
 const RecentPosts: React.FC = () => {
   const dispatch = useDispatch();
-  const posts = useSelector((state: any) => state.posts.posts.slice(0, 3)) || [];  // Get the posts from the Redux store
+  const allPosts = useSelector((state: any) => state.posts.posts) || [];
+
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  console.log(allPosts)
+  const filteredPosts = selectedTag
+      ? allPosts.filter(post => post.tags.includes(selectedTag))
+      : allPosts;
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -21,7 +27,10 @@ const RecentPosts: React.FC = () => {
   return (
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <TagSelection/>
+          <Typography variant="h6" mb={1}>
+            Tag Selection
+          </Typography>
+          <TagSelection onTagClick={setSelectedTag} />
         </Grid>
         {isSmallScreen ? <div/> : <Grid item xs={12}>
           <Box sx={{p: 2}}>
@@ -29,7 +38,7 @@ const RecentPosts: React.FC = () => {
               Recent Posts
             </Typography>
             <List>
-              {posts.reverse().map((post) => (
+              {filteredPosts.slice(0, 3).reverse().map((post) => (
                   <ListItem key={post.id} sx={{mb: 0.5}}>
                     <Grid container spacing={1}>
                       <Grid item xs={12}>
