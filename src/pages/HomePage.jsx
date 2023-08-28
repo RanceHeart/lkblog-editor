@@ -1,5 +1,4 @@
 import { Box, Typography, useMediaQuery, useTheme } from '@mui/material';
-import Header from '../components/Header/header';
 import LogoButton from "../components/Header/Button/LogoButton";
 
 const HomePage = () => {

@@ -10,6 +10,8 @@ import PostView from "./pages/PostView.jsx";
 import store from './reducer/store';
 import {Provider} from "react-redux";
 import HomePage from "./pages/HomePage.jsx";
+import MusicFoldersPage from "./pages/MusicFoldersPage";
+import MusicPlayer from "./pages/MusicPlayer";
 
 
 const App = () => {
@@ -30,6 +32,8 @@ const App = () => {
                 <Route path="/posts/:id" element={<PostView/>}/>
                 <Route path="/edit-post/:id" element={<CreateNewPost mode="edit"/>}/>
                 <Route path="/" element={<Posts/>}/>
+                <Route path="/Music" element={<MusicFoldersPage/>}/>
+                <Route path="/Music/MusicPlayer/:id" element={<MusicPlayer/>}/>
                 <Route path="/HomePage" element={<HomePage/>}/>
                 <Route path="/create-new-posts" element={<CreateNewPost mode="create" postId={'0'}/>}/>
               </Routes>

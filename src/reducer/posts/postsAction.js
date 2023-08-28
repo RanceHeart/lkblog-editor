@@ -103,6 +103,7 @@ export const readPost = (id) => {
     };
 };
 
+// Using tag instead
 export const updateFilterKeyword = (keyword) => ({
   type: UPDATE_FILTER_KEYWORD,
   payload: keyword,

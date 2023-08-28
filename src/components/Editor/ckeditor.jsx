@@ -36,7 +36,7 @@ import {GeneralHtmlSupport} from '@ckeditor/ckeditor5-html-support';
 import {Style} from '@ckeditor/ckeditor5-style';
 
 
-import './ckeditor.css'
+import '../../styles/ckeditor.css'
 import {SimpleUploadAdapter} from "@ckeditor/ckeditor5-upload";
 
 ClassicEditorBase.builtinPlugins = [

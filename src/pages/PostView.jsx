@@ -1,16 +1,16 @@
-
-import { useEffect, useState } from 'react';
-import {useParams} from 'react-router-dom';
-import {Box, Container} from "@mui/system";
-import {Chip, Typography, useMediaQuery, useTheme} from "@mui/material";
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { Box, Container } from "@mui/system";
+import { Chip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Header from "../components/Header/header";
-import {useDispatch, useSelector} from "react-redux";
-import {readPost} from "../reducer/posts/postsAction.js";
+import { useDispatch, useSelector } from "react-redux";
+import { readPost } from "../reducer/posts/postsAction.js";
 import ReactHtmlParser from 'react-html-parser';
+import './PostView.css';
 
 const PostView = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch();
 
   const theme = useTheme();
@@ -27,12 +27,12 @@ const PostView = () => {
   }
 
   return (
-    <Box sx={{mx: 'auto', px: { xs: 2, sm: 3, md: 6 }, paddingTop: '100px'}}>
+    <Box sx={{ mx: 'auto', px: { xs: 2, sm: 3, md: 6 }, paddingTop: '150px' }}>
       <Box>
-        <Header/>
+        <Header />
       </Box>
       <Container maxWidth="lg">
-        <img src={post.image} alt="Post" style={{ width: '100%',  objectFit: 'contain' }}/>
+        <img src={post.image} alt="Post" style={{ width: '100%', objectFit: 'contain' }} />
         <Box sx={{ my: 4 }}>
           <Typography variant="h4" gutterBottom>
             {post.title}
@@ -47,10 +47,15 @@ const PostView = () => {
             {post.readTime} min read
           </Typography>
         </Box>
-        <Box sx={{ mt: 4 }}>
-          <Typography variant="body1">
+        <Box
+          sx={{
+            mt: 4,
+
+          }}
+        >
+          <div className='ck-content'>
             {ReactHtmlParser(post.content)}
-          </Typography>
+          </div>
         </Box>
       </Container>
     </Box>
