@@ -50,7 +50,6 @@ const PostView = () => {
         <Box
           sx={{
             mt: 4,
-
           }}
         >
           <div className='ck-content'>

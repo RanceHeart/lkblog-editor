@@ -6,15 +6,16 @@ import {FaGoogle, FaSignOutAlt} from 'react-icons/fa';
 import {IconButton, Tooltip} from '@mui/material';
 import {useState, useEffect} from 'react';
 
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import {googleLogout, useGoogleLogin} from '@react-oauth/google';
 import axios from 'axios';
 
 const GoogleLoginButton = () => {
     const dispatch = useDispatch();
+    // @ts-ignore
     const userData = useSelector(state => state.user.userData);
     const [googleButtonScale, setGoogleButtonScale] = useState(1);
 
-    const [ user, setUser ] = useState([]);
+    const [user, setUser] = useState([]);
 
     const logIn = useGoogleLogin({
         onSuccess: tokenResponse => {
@@ -44,7 +45,7 @@ const GoogleLoginButton = () => {
                     .catch((err) => console.log(err));
             }
         },
-        [ user ]
+        [user]
     );
 
     return (
@@ -58,9 +59,9 @@ const GoogleLoginButton = () => {
                 onMouseDown={() => setGoogleButtonScale(0.95)}
                 onMouseUp={() => setGoogleButtonScale(1)}
                 sx={{transform: `scale(${googleButtonScale})`, transition: 'transform 0.3s ease'}}
-                onClick={() => userData === false ? logIn() : logOut() }
+                onClick={() => userData === false ? logIn() : logOut()}
             >
-                { userData === false ? <FaGoogle/> : <FaSignOutAlt/>}
+                {userData === false ? <FaGoogle/> : <FaSignOutAlt/>}
             </IconButton>
         </Tooltip>
     );

@@ -28,7 +28,6 @@ router.route('/add').post((req, res) => {
 router.route('/:id').get((req, res) => {
     Post.findOne({ id: req.params.id })
         .then(post => {
-            console.debug(post)
             return res.json(post)
         })
         .catch(err => res.status(400).json('Error: ' + err));

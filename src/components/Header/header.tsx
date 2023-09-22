@@ -1,4 +1,4 @@
-import {Box, Button, Grid, Input, Typography, useMediaQuery, useTheme} from '@mui/material';
+import {Box, Button, Grid, Typography, useMediaQuery, useTheme} from '@mui/material';
 import {alpha} from '@mui/system';
 import {useEffect, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
@@ -9,13 +9,13 @@ import LogoButton from "./Button/LogoButton";
 import WritePostButton from "./Button/WritePostButton";
 
 import {useDispatch, useSelector} from "react-redux";
+import MusicFolderEditButton from "./Button/MusicFolderEditButton";
 
 
 const Header = () => {
   const dispatch = useDispatch();
   // @ts-ignore
   const userData = useSelector(state => state.user.userData);
-  const [inputValue, setInputValue] = useState<String>('');
   const location = useLocation();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -55,9 +55,32 @@ const Header = () => {
     };
   }, [lastScrollPos]);
 
+  const alphaTrans = location.pathname.includes('MusicPlayer/') ? [0.8, 0.7] : [1, 0.9];
+
+  const postsPageEditPanel = () =>{
+      return (
+          <Grid item xs={4} container justifyContent="center">
+              <Box mr={1}>
+                  {userData && <WritePostButton />}
+              </Box>
+              <GoogleLoginButton />
+          </Grid>
+      );
+  }
+
+    const musicFolderPageEditPanel = () =>{
+        return (
+            <Grid item xs={4} container justifyContent="center">
+                <Box mr={1}>
+                    {userData && <MusicFolderEditButton />}
+                </Box>
+                <GoogleLoginButton />
+            </Grid>
+        );
+    }
   return (
       <Box sx={{
-        background: `radial-gradient(circle at top, ${alpha(theme.palette.background.default, 1)} 50%, ${alpha(theme.palette.background.default, 0.9)} 100%)`,
+        background: `radial-gradient(circle at top, ${alpha(theme.palette.background.default, alphaTrans[0])} 50%, ${alpha(theme.palette.background.default, alphaTrans[1])} 100%)`,
         w: '100%',
         color: 'white',
         top: 0,
@@ -70,34 +93,36 @@ const Header = () => {
 
       }}>
         <Grid container alignItems="center" spacing={2}>
-          <Grid item xs={6} sm={2}>
-            <LogoButton logoSize={logoSize}/>
+          <Grid item xs={2}>
+            <LogoButton logoSize={logoSize} />
           </Grid>
-          {!isSmallScreen && !location.pathname.includes('-post')  && (
-              <Grid item xs={12} sm={4}>
-                <Button onClick={() => navigate('/homepage')}>
-                  <Typography variant="h6" mb={1}>
-                    HomePage
-                  </Typography>
-                </Button>
-                <Button onClick={() => navigate('/')}>
-                  <Typography variant="h6" mb={1}>
+          {!location.pathname.includes('-post') && (
+              <>
+                <Grid item xs={2}>
+                  <Button onClick={() => navigate('/homepage')}>
+                    <Typography variant={isSmallScreen ? "h7" : "h6"} mb={1}>
+                      Home
+                    </Typography>
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button onClick={() => navigate('/')}>
+                    <Typography variant={isSmallScreen ? "h7" : "h6"} mb={1}>
                     Posts
-                  </Typography>
-                </Button>
-                <Button onClick={() => navigate('/Music')}>
-                  <Typography variant="h6" mb={1}>
+                    </Typography>
+                  </Button>
+                </Grid>
+                <Grid item xs={2}>
+                  <Button onClick={() => navigate('/Music')}>
+                    <Typography variant={isSmallScreen ? "h7" : "h6"} mb={1}>
                     Music
-                  </Typography>
-                </Button>
-              </Grid>
+                    </Typography>
+                  </Button>
+                </Grid>
+              </>
           )}
-          <Grid item xs={6} sm={6} container justifyContent="flex-end">
-            <Box mr={2}>
-              {location.pathname === '/' && userData && <WritePostButton/>}
-            </Box>
-            {location.pathname === '/' && <GoogleLoginButton/>}
-          </Grid>
+            {location.pathname === '/' && postsPageEditPanel()}
+            {location.pathname === '/Music' && musicFolderPageEditPanel()}
         </Grid>
       </Box>
   );

@@ -20,8 +20,10 @@ connection.once('open', () => {
 })
 
 const postsRouter = require('./posts');
+const musicFolderRouter = require('./musicFolder');
 
 app.use('/posts', postsRouter);
+app.use('/musicFolder', musicFolderRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

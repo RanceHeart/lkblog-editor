@@ -1,4 +1,3 @@
-import {initialState} from "../sampleData.js";
 import * as ROUTES from "../../route/posts.js";
 import api from "../../route/api.js";
 

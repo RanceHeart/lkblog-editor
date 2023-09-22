@@ -455,3 +455,9 @@
         display: none;
     }
 }
+
+@media (max-width: 600px) {
+    .ck-content .MuiTypography-root.MuiTypography-h4 {
+        font-size: 20px; /* or whatever size you find appropriate for mobile */
+    }
+}
