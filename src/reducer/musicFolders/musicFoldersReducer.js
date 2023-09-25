@@ -8,22 +8,21 @@ import {
     DELETE_MUSIC_FOLDER_FAILURE,
     FETCH_ALL_MUSIC_FOLDERS_START,
     FETCH_MUSIC_FOLDER_START,
-    STORE_MUSIC_INFO_START,
     FETCH_ALL_MUSIC_FOLDERS_FAILURE,
     FETCH_MUSIC_FOLDER_FAILURE,
-    STORE_MUSIC_INFO_FAILURE,
-    STORE_MUSIC_INFO_SUCCESS,
     FETCH_MUSIC_FOLDER_SUCCESS,
     FETCH_ALL_MUSIC_FOLDERS_SUCCESS,
     CREATE_MUSIC_FOLDER_START,
     CREATE_MUSIC_FOLDER_SUCCESS,
     CREATE_MUSIC_FOLDER_FAILURE,
+    ADD_NEW_MUSIC_INFO_TO_FOLDER
 } from "./musicFoldersAction.js";
 
 
 const initialState = {
     ids: [],
     musicFolders: [],
+    musicSeriesInfo: {},
     editToggleBoolean: false,
     isLoading: false,
     error: ""
@@ -31,12 +30,18 @@ const initialState = {
 
 const musicFoldersReducer = (state = initialState, action) => {
     switch (action.type) {
+        case ADD_NEW_MUSIC_INFO_TO_FOLDER:
+            return {
+                ...state,
+                musicFolders: state.musicFolders.map(musicFolder =>
+                    musicFolder._id === action.payload._id ? action.payload : musicFolder
+                ),
+            };
         case CREATE_MUSIC_FOLDER_START:
         case UPDATE_MUSIC_FOLDER_START:
         case DELETE_MUSIC_FOLDER_START:
         case FETCH_ALL_MUSIC_FOLDERS_START:
         case FETCH_MUSIC_FOLDER_START:
-        case STORE_MUSIC_INFO_START:
             return {
                 ...state,
                 isLoading: true,
@@ -49,21 +54,21 @@ const musicFoldersReducer = (state = initialState, action) => {
         case CREATE_MUSIC_FOLDER_SUCCESS:
             return {
                 ...state,
-                ids: [...state.ids, action.payload.id], // Add the new folder's ID to the ids array
+                ids: [...state.ids, action.payload["_id"]], // Add the new folder's ID to the ids array
                 musicFolders: [...state.musicFolders, action.payload], // Add the new folder to the musicFolders array
                 isLoading: false,
             };
         case UPDATE_MUSIC_FOLDER_SUCCESS:
             return {
                 ...state,
-                musicFolders: state.musicFolders.map(folder => folder.id === action.payload.id ? action.payload : folder),
+                musicFolders: state.musicFolders.map(folder => folder["_id"] === action.payload["_id"] ? action.payload : folder),
                 isLoading: false,
             };
         case DELETE_MUSIC_FOLDER_SUCCESS:
             return {
                 ...state,
                 ids: state.ids.filter(id => id !== action.payload),
-                musicFolders: state.musicFolders.filter(folder => folder.id !== action.payload),
+                musicFolders: state.musicFolders.filter(folder => folder["_id"] !== action.payload),
                 isLoading: false,
             };
         case FETCH_ALL_MUSIC_FOLDERS_SUCCESS:
@@ -73,7 +78,7 @@ const musicFoldersReducer = (state = initialState, action) => {
                 isLoading: false,
             };
         case FETCH_MUSIC_FOLDER_SUCCESS:
-            const existingFolderIndex = state.musicFolders.findIndex(folder => folder.id === action.payload.id);
+            const existingFolderIndex = state.musicFolders.findIndex(folder => folder["_id"] === action.payload["_id"]);
             let updatedMusicFolders = [...state.musicFolders];
             if (existingFolderIndex !== -1) {
                 updatedMusicFolders[existingFolderIndex] = action.payload;
@@ -86,19 +91,10 @@ const musicFoldersReducer = (state = initialState, action) => {
                 musicFolders: updatedMusicFolders,
                 isLoading: false,
             };
-        case STORE_MUSIC_INFO_SUCCESS:
-            // Assuming the backend returns the newly stored music info
-            return {
-                ...state,
-                ids: [...state.musicFolders, action.payload.id],
-                musicFolders: [...state.musicFolders, action.payload],
-                isLoading: false,
-            };
         case UPDATE_MUSIC_FOLDER_FAILURE:
         case DELETE_MUSIC_FOLDER_FAILURE:
         case FETCH_ALL_MUSIC_FOLDERS_FAILURE:
         case FETCH_MUSIC_FOLDER_FAILURE:
-        case STORE_MUSIC_INFO_FAILURE:
         case CREATE_MUSIC_FOLDER_FAILURE:
             return {
                 ...state,

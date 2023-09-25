@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const RightPanel: FC = () => {
+const MusicPanel: FC = () => {
   const classes = useStyles();
 
   return (
@@ -71,4 +71,4 @@ const RightPanel: FC = () => {
   );
 };
 
-export default RightPanel;
+export default MusicPanel;

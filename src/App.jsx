@@ -33,7 +33,7 @@ const App = () => {
                 <Route path="/edit-post/:id" element={<CreateNewPost mode="edit"/>}/>
                 <Route path="/" element={<Posts/>}/>
                 <Route path="/Music" element={<MusicFoldersPage/>}/>
-                <Route path="/Music/MusicPlayer/:id" element={<MusicPlayer/>}/>
+                <Route path="/Music/MusicPlayer/YOUTUBE/:id" element={<MusicPlayer/>}/>
                 <Route path="/HomePage" element={<HomePage/>}/>
                 <Route path="/create-new-posts" element={<CreateNewPost mode="create" postId={'0'}/>}/>
               </Routes>

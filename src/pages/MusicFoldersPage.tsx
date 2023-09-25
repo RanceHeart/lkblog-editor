@@ -1,12 +1,13 @@
 // MusicFoldersPage.tsx
 import {FC, useEffect, useState} from 'react';
-import MusicFolder from '../components/MusicFolders/MusicFolder';
+import MusicFolder from '../components/MusicFolder/MusicFolder';
 import { Box, useMediaQuery, useTheme, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField, IconButton } from '@mui/material';
 import Header from '../components/Header/header';
 import AddIcon from '@mui/icons-material/Add';
 import {useDispatch, useSelector} from "react-redux";
 
 import {saveMusicFolder, createMusicFolder, fetchAllMusicFolderIds} from "../reducer/musicFolders/musicFoldersAction";
+
 
 interface Folder {
   name: string;
@@ -21,8 +22,8 @@ const MusicFoldersPage: FC = () => {
   const [open, setOpen] = useState(false);
   const [newFolderName, setNewFolderName] = useState('');
 
-  console.log(folderIds)
   useEffect(() => {
+    // @ts-ignore
     dispatch(fetchAllMusicFolderIds()); // Dispatch the action to fetch all IDs when the component mounts
   }, []);
 
@@ -34,6 +35,7 @@ const MusicFoldersPage: FC = () => {
       name: newFolderName,
     };
 
+    // @ts-ignore
     dispatch(createMusicFolder(newFolder));  // Dispatch the action to save the new folder
 
     setOpen(false);
