@@ -9,6 +9,7 @@ const musicInfoSchema = new Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
     platform: { type: String, required: true },
+    folderId: { type: mongoose.Schema.Types.ObjectId, ref: 'MusicFolder', required: true },
     description: { type: String },
     publishedAt: { type: Date },  // Date when the video was published
 }, {

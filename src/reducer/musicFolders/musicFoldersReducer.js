@@ -17,6 +17,7 @@ import {
     CREATE_MUSIC_FOLDER_FAILURE,
     ADD_NEW_MUSIC_INFO_TO_FOLDER
 } from "./musicFoldersAction.js";
+import {DELETE_MUSIC_INFO_SUCCESS, STORE_MUSIC_INFO_SUCCESS} from "../musicInfos/musicInfosAction.js";
 
 
 const initialState = {
@@ -31,6 +32,8 @@ const initialState = {
 const musicFoldersReducer = (state = initialState, action) => {
     switch (action.type) {
         case ADD_NEW_MUSIC_INFO_TO_FOLDER:
+            console.log("payload: " + action.payload)
+            console.log("all: " + state.musicFolders)
             return {
                 ...state,
                 musicFolders: state.musicFolders.map(musicFolder =>
@@ -91,6 +94,24 @@ const musicFoldersReducer = (state = initialState, action) => {
                 musicFolders: updatedMusicFolders,
                 isLoading: false,
             };
+        // Music info should also store in the folder
+        case STORE_MUSIC_INFO_SUCCESS:
+            // Fetch musicInfo data
+            return {
+                ...state,
+                musicFolders: state.musicFolders.map(folder => folder["_id"] === action.payload["folderId"] ? folder.musicSeries.push(action.payload) : folder),
+                isLoading: false,
+            };
+        // Music info should remove from the folder if successful
+        case DELETE_MUSIC_INFO_SUCCESS:
+            console.log("Get payload: " + JSON.stringify(action.payload))
+            return { ...state,
+                musicFolders: state.musicFolders.map(folder => folder["_id"] === action.payload["folderId"]
+                    ? { ...folder, musicSeries: folder.musicSeries.filter(musicInfo => musicInfo.videoId !== action.payload.videoId) }
+                    : folder),
+                isLoading: false
+            };
+
         case UPDATE_MUSIC_FOLDER_FAILURE:
         case DELETE_MUSIC_FOLDER_FAILURE:
         case FETCH_ALL_MUSIC_FOLDERS_FAILURE:

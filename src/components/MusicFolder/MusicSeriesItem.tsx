@@ -1,6 +1,7 @@
-import { ListItem, ListItemText, TextField } from '@mui/material';
+import {IconButton, ListItem, ListItemText, TextField} from '@mui/material';
 import { FC, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 interface MusicSeriesItemProps {
     data: {
@@ -9,9 +10,11 @@ interface MusicSeriesItemProps {
         platform: string;
         videoId: string;
     };
+    onDelete: (videoId: string) => void;  // New prop for delete function
+    isEditable: boolean;  // New prop to check if editing is enabled
 }
 
-const MusicSeriesItem: FC<MusicSeriesItemProps> = ({ data }) => {
+const MusicSeriesItem: FC<MusicSeriesItemProps> = ({ data, onDelete, isEditable }) => {
     const linkPath = `/Music/MusicPlayer/${data.platform}/${data.videoId}`;
 
     return (
@@ -26,6 +29,14 @@ const MusicSeriesItem: FC<MusicSeriesItemProps> = ({ data }) => {
                         </div>
                     }
                 />
+                {isEditable && (
+                    <IconButton onClick={(e) => {
+                        e.preventDefault();  // Prevent navigation
+                        onDelete(data["_id"]);
+                    }}>
+                        <DeleteIcon />
+                    </IconButton>
+                )}
             </ListItem>
         </RouterLink>
     );

@@ -1,6 +1,6 @@
 :root {
-    --video-width: 100vw;
-    --video-height: 100vh;
+    --video-width: 80vw;
+    --video-height: 80vh;
 }
 
 @media (min-aspect-ratio: 16/9) {
@@ -17,25 +17,26 @@
 
 .video-container {
     position: absolute;
-    top: 50%;
-    left: 40%; /* Default for larger screens */
-    width: 100vh; /* Default for larger screens */
-    height: 100vh; /* Default for larger screens */
+    top: 58%;
+    left: 44%; /* Default for larger screens */
+    width: 55vw; /* Default for larger screens */
+    height: 85vh; /* Default for larger screens */
     transform: translate(-50%, -50%);
     overflow: hidden;
-    border-radius: 50%;
+    border-radius: 4%;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1),
     inset 0 4px 8px rgba(0, 0, 0, 0.3);
+
 }
 
 .video-container iframe {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 150%; /* Scale the iframe to ensure main content is visible */
-    height: 150%; /* Scale the iframe to ensure main content is visible */
+    width: 100%; /* Scale the iframe to ensure main content is visible */
+    height: 100%; /* Scale the iframe to ensure main content is visible */
     transform: translate(-50%, -50%);
-    border-radius: 50%;
+    border-radius: 4%;
 }
 
 /* Adjustments for smaller screens (mobile view) */

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {useMediaQuery, CssBaseline, ThemeProvider} from '@mui/material';
-import {lightTheme, darkTheme} from './themProvider';
+import {lightTheme, darkTheme, squidSistersTheme} from './themProvider';
 import Posts from "./pages/Posts.jsx";
 import {useMemo} from 'react';
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";

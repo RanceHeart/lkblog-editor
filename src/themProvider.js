@@ -30,6 +30,74 @@ const lightTheme = createTheme({
   },
 });
 
+const squidSistersTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#FF66B2', // Callie's pink
+      light: '#FF8AC5',
+      dark: '#FF408A',
+      contrastText: '#252525',
+    },
+    secondary: {
+      main: '#66FF89', // Marie's green
+      light: '#8AFFA3',
+      dark: '#4AFF6F',
+      contrastText: '#252525',
+    },
+    background: {
+      default: '#252525',
+      paper: '#333333',
+    },
+    text: {
+      primary: '#ffffff',
+      secondary: '#aaaaaa',
+    },
+    error: {
+      main: '#D32F2F',
+    },
+    warning: {
+      main: '#FBC02D',
+    },
+    info: {
+      main: '#1976D2',
+    },
+    success: {
+      main: '#388E3C',
+    },
+    grey: {
+      50: '#FAFAFA',
+      100: '#F5F5F5',
+      200: '#EEEEEE',
+      300: '#E0E0E0',
+      400: '#BDBDBD',
+      500: '#9E9E9E',
+      600: '#757575',
+      700: '#616161',
+      800: '#424242',
+      900: '#212121',
+    },
+    overrides: {
+      MuiCssBaseline: {
+        '@global': {
+          ':root': {
+            '--ck-color-primary': '#FF66B2',
+            '--ck-color-secondary': '#66FF89',
+            '--ck-color-background': '#252525',
+            '--ck-color-text': '#ffffff',
+            '--ck-color-panel-background': '#333333',
+            '--ck-color-tooltip-background': '#424242',
+            '--ck-color-error': '#D32F2F',
+            '--ck-color-warning': '#FBC02D',
+            '--ck-color-info': '#1976D2',
+            '--ck-color-success': '#388E3C',
+          },
+        },
+      },
+    },
+  },
+});
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -73,4 +141,4 @@ const darkTheme = createTheme({
 // #FFFFFF
 // #E3F6F5
 // #bae8e8
-export {lightTheme, darkTheme};
+export {lightTheme, darkTheme, squidSistersTheme};

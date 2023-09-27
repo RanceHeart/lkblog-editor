@@ -47,12 +47,12 @@ router.route('/').post(async (req, res) => {
                         title: snippet.title,
                         author: snippet.channelTitle,
                         platform: platformType,
+                        folderId: folderId,
                         description: snippet.description,
                         publishedAt: snippet.publishedAt
                     });
 
                     savedMusicInfo = await newMusicInfo.save();
-                    console.log(savedMusicInfo);
 
                 } else {
                     return res.status(400).json('No video details found.');
@@ -105,13 +105,28 @@ router.route('/:id').delete(async (req, res) => {
     // Delete music info based on ID
     try {
         const musicInfo = await MusicInfoModel.findByIdAndRemove(id);
+
         if (!musicInfo) {
             return res.status(404).json({ message: `No music info found for ID: ${id}` });
         }
-        return res.status(200).json({ message: `Music info with ID: ${id} was successfully deleted.` });
+
+        // Remove the musicInfo ID from the musicFolder's musicSeries array
+        const musicFolder = await MusicFolderModel.findById(musicInfo.folderId);
+        if (musicFolder) {
+            const index = musicFolder.musicSeries.indexOf(id);
+            if (index > -1) {
+                musicFolder.musicSeries.splice(index, 1);
+                await musicFolder.save();
+            }
+        }
+
+        return res.status(200).json(musicInfo);
     } catch (err) {
         return res.status(500).json({ message: 'Error deleting music info.', error: err.toString() });
     }
+
+
 });
+
 
 module.exports = router;

@@ -4,19 +4,6 @@ import './VideoContainer.css';
 const VIDEO_WIDTH = 1920;
 const VIDEO_HEIGHT = 1080;
 
-const videoIds = [
-    "ibMKmdiHMe4",
-    "rMqvFX-5kf4",
-    "oklreyQHr1s",
-    "f_qyF8kMSJk",
-    "V6emBufK-2Y",
-    "lvocUrrZqTc",
-    "JJtBtX7WhQ8",
-    "RZGgQ-YfO4o",
-    "WehjsHom5z0",
-    "FxmYKJT4xBc"
-];
-
 interface VideoContainerProps {
     id: string;
 }

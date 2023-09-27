@@ -4,7 +4,10 @@ import {
     STORE_MUSIC_INFO_FAILURE,
     FETCH_MUSIC_INFO_START,
     FETCH_MUSIC_INFO_SUCCESS,
-    FETCH_MUSIC_INFO_FAILURE
+    FETCH_MUSIC_INFO_FAILURE,
+    DELETE_MUSIC_INFO_START,
+    DELETE_MUSIC_INFO_SUCCESS,
+    DELETE_MUSIC_INFO_FAILURE
 } from "./musicInfosAction.js";
 
 const initialMusicSeriesState = {
@@ -15,6 +18,33 @@ const initialMusicSeriesState = {
 
 const musicInfosReducer = (state = initialMusicSeriesState, action) => {
     switch (action.type) {
+        case DELETE_MUSIC_INFO_START:
+            return {
+                ...state,
+                musicSeriesInfo: {
+                    ...state.musicSeriesInfo,
+                    [action.payload.id]: {
+                        ...state.musicSeriesInfo[action.payload.id],
+                        isLoading: true,
+                        isSuccess: false
+                    }
+                }
+            };
+        case DELETE_MUSIC_INFO_FAILURE:
+            return {
+                ...state,
+                musicSeriesInfo: {
+                    ...state.musicSeriesInfo,
+                    [action.payload.id]: {
+                        ...state.musicSeriesInfo[action.payload.id],
+                        isLoading: false,
+                        isSuccess: false,
+                        error: action.payload.error
+                    }
+                }
+            };
+
+
         case STORE_MUSIC_INFO_START:
             return {
                 ...state,
@@ -25,25 +55,6 @@ const musicInfosReducer = (state = initialMusicSeriesState, action) => {
                         isSuccess: false
                     }
                 }
-            };
-        case STORE_MUSIC_INFO_SUCCESS:
-            return {
-                ...state,
-                musicStoreInfo: {
-                    ...state.musicStoreInfo,
-                    [action.payload.link]: {
-                        isLoading: false,
-                        isSuccess: true
-                    }
-                },
-                musicSeriesInfo: {
-                    ...state.musicSeriesInfo,
-                    [action.payload._id]: {
-                        ...action.payload,
-                        isLoading: false,
-                        isSuccess: true
-                    }
-                },
             };
         case STORE_MUSIC_INFO_FAILURE:
             // Save in the store and series at the same time

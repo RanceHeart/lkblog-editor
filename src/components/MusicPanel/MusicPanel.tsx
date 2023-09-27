@@ -5,10 +5,10 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles((theme) => ({
   card: {
     position: 'absolute',
-    right: '5%',
+    right: '2%',
     bottom: '1%',
     width: '25vw',
-    height: '80vh',
+    height: '83vh',
     overflowY: 'auto',
     backgroundColor: "rgba(0, 0, 0, 0.7)",
     color: '#FFF',

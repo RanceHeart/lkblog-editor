@@ -30,6 +30,7 @@ export const toggleMusicEditButton = (editToggleBoolean) => ({
 });
 
 export const addMusicInfoToFolder = (newFolderData) => {
+    console.log("Add new link to folder :" + newFolderData)
     return (dispatch) => {
         dispatch({
             type: ADD_NEW_MUSIC_INFO_TO_FOLDER,

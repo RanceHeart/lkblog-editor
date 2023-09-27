@@ -19,6 +19,7 @@ import {
   MenuItem,
   Select
 } from '@mui/material';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 import {makeStyles} from '@mui/styles';
 import AddIcon from '@mui/icons-material/Add';
 import {useDispatch, useSelector} from "react-redux";
@@ -30,7 +31,8 @@ import {
 } from "../../reducer/musicFolders/musicFoldersAction.js"
 
 import {
-  storeMusicInfo
+  storeMusicInfo,
+  deleteMusicInfo
 } from "../../reducer/musicInfos/musicInfosAction.js"
 
 import SaveAltIcon from '@mui/icons-material/SaveAlt';
@@ -42,6 +44,7 @@ const platformTypes = [
   {value: 'BILIBILI', label: 'BiliBili', disabled: true}
 ];
 
+// @ts-ignore
 const useStyles = makeStyles((theme) => ({
   card: {
     width: '30vw',
@@ -65,8 +68,17 @@ const useStyles = makeStyles((theme) => ({
   },
   scrollPanel: {
     overflowX: 'scroll',
-    display: 'flex',
     flexDirection: 'row',
+  },
+  textarea: {
+    width: '100%', // Ensure it takes the full width
+    fontSize: '1rem', // Adjust this value as needed
+    padding: theme.spacing(1),
+    backgroundColor: 'transparent',
+    border: '1px solid #ccc',
+    borderRadius: 4,
+    color: '#FFF', // or any desired color
+    resize: 'none', // Disable manual resize
   },
 }));
 
@@ -96,26 +108,27 @@ const MusicFolder: FC<Props> = ({folderId}) => {
   // For editor content
   const [editedFolder, setEditedFolder] = useState({
     name: '',
-    details: '',
-    musicDetails: ''
+    musicSeriesInfo: '',
+    musicInfo: ''
   });
 
   useEffect(() => {
     if (folder) {
       setEditedFolder({
         name: folder.name,
-        details: "Details about the music series...", // Replace with actual folder details if available
-        musicDetails: "Details about the music..." // Replace with actual music details if available
+        musicSeriesInfo: folder.musicSeriesInfo,
+        musicInfo: folder.musicInfo
       });
     }
   }, [folder]);
+
 
   const classes = useStyles();
 
   useEffect(() => {
     // @ts-ignore
     dispatch(fetchMusicFolderById(folderId))
-  }, [dispatch, folderId]);
+  }, [folderId, dispatch]);
 
   useEffect(() => {
     if (folder && folder.musicSeries) {
@@ -124,10 +137,6 @@ const MusicFolder: FC<Props> = ({folderId}) => {
   }, [folder, dispatch]);
 
   const saveEditedMusicFolder = () => {
-    console.log("Save content: "+ {
-      ...folder,
-      ...editedFolder
-    })
     const updatedFolder = {
       ...folder,
       ...editedFolder
@@ -137,32 +146,23 @@ const MusicFolder: FC<Props> = ({folderId}) => {
   };
 
   const addNewMusicLink = async () => {
-
     // @ts-ignore
-    const newLinkResponse = dispatch(storeMusicInfo(newLink, selectedPlatform, folderId));
-
-    console.log(newLinkResponse)
-    if (newLinkResponse && newLinkResponse["_id"]) {
-      const updatedFolder = {
-        ...folder,
-        musicSeries: [...folder.musicSeries, newLinkResponse["_id"]]
-      };
-
-      // Update on local and remote
-      // @ts-ignore
-      dispatch(saveMusicFolder(updatedFolder));
-      // @ts-ignore
-      dispatch(addMusicInfoToFolder(updatedFolder))
-    }
+    dispatch(storeMusicInfo(newLink, selectedPlatform, folderId));
   };
-
 
   const onDelete = (id: number) => {
     // @ts-ignore
     dispatch(deleteMusicFolder(id));
   };
 
-  if (!folder) {
+  // For music series
+  const deleteMusicSeriesItem = (id: string) => {
+    // @ts-ignore
+    dispatch(deleteMusicInfo(id));
+  }
+
+
+  if (isLoading) {
     return <p>Loading...</p>; // or return a spinner component
   }
 
@@ -187,9 +187,16 @@ const MusicFolder: FC<Props> = ({folderId}) => {
         <div className={classes.scrollPanel}>
           <CardContent>
             <List>
-              <ListItem>
+              <ListItem style={{ width: '100%' }}>
                 <ListItemText secondary={isEditable ?
-                    <TextField defaultValue={editedFolder.details} onChange={(e) => setEditedFolder(prev => ({ ...prev, details: e.target.value }))} fullWidth multiline/> : editedFolder.details}/>
+                    <TextareaAutosize
+                        className={classes.textarea}
+                        minRows={3} // Minimum number of rows
+                        value={editedFolder.musicSeriesInfo}
+                        onChange={(e) =>
+                            setEditedFolder(prev => ({ ...prev, musicSeriesInfo: e.target.value }))
+                        }
+                    /> : editedFolder.musicSeriesInfo}/>
               </ListItem>
               <Divider component="li"/>
               <li>
@@ -197,8 +204,16 @@ const MusicFolder: FC<Props> = ({folderId}) => {
                   Music Info
                 </Typography>
               </li>
-              <ListItem>
-                <ListItemText secondary={isEditable ? <TextField defaultValue={editedFolder.musicDetails} onChange={(e) => setEditedFolder(prev => ({ ...prev, musicDetails: e.target.value }))} fullWidth multiline/> : editedFolder.musicDetails}/>
+              <ListItem style={{ width: '100%' }}>
+                <ListItemText secondary={isEditable ?
+                    <TextareaAutosize
+                    className={classes.textarea}
+                    minRows={3} // Minimum number of rows
+                    value={editedFolder.musicInfo}
+                    onChange={(e) =>
+                        setEditedFolder(prev => ({ ...prev, musicInfo: e.target.value }))
+                    }
+                    /> : editedFolder.musicInfo}/>
               </ListItem>
               <Divider component="li" variant="inset"/>
               <li>
@@ -212,7 +227,7 @@ const MusicFolder: FC<Props> = ({folderId}) => {
                 )}
               </li>
               {musicSeriesData.map((data) => (
-                  <MusicSeriesItem data={data} />
+                  <MusicSeriesItem data={data} onDelete={deleteMusicSeriesItem} isEditable={isEditable} />
               ))}
             </List>
           </CardContent>
@@ -222,7 +237,7 @@ const MusicFolder: FC<Props> = ({folderId}) => {
             <Dialog open={open} onClose={() => setOpen(false)}>
               <DialogTitle>Add New Music Link</DialogTitle>
               <DialogContent>
-                <TextField autoFocus margin="dense" label="Music Link" type="text" fullWidth value={newLink} onChange={(e) => setNewLink(e.target.value)} />
+                <TextField className={classes.textField} autoFocus margin="dense" label="Music Link" type="text" fullWidth value={newLink} onChange={(e) => setNewLink(e.target.value)} />
                 <FormControl autoFocus fullWidth margin="dense">
                   <Select
                       labelId="platform-label"

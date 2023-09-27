@@ -82,7 +82,7 @@ const Header = () => {
       <Box sx={{
         background: `radial-gradient(circle at top, ${alpha(theme.palette.background.default, alphaTrans[0])} 50%, ${alpha(theme.palette.background.default, alphaTrans[1])} 100%)`,
         w: '100%',
-        color: 'white',
+        color: theme.palette.text.primary,
         top: 0,
         left: 0,
         right: 0,
